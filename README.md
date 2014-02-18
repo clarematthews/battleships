@@ -5,7 +5,7 @@
 ### Team members 
 
 - [dbremner](https://bitbucket.org/dbremner)
-- [raitis01](https://bitbucket.org/raitis01)
+- [raitis_cerkasovs](https://bitbucket.org/raitis_cerkasovs)
 - [dredma01](https://bitbucket.org/dredma01)
 - [clarematthews](https://bitbucket.org/clarematthews)
 
