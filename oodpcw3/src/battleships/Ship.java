@@ -23,4 +23,9 @@ public class Ship {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public boolean isSunk() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

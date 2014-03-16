@@ -16,17 +16,24 @@ public class BattleshipGame {
 	private void runGame() {
 		boolean play;
 		int[] location;
- 		
+		
 		System.out.println("Welcome. Enter 'quit' at any time to exit");
 		
 		do {	
+			
 			this.createGame();
+			
 			do {
+			
 				location = this.getInput();
+				this.fireShot(location);				
+				this.ocean.toString();
+				
 			} while (!this.ocean.isGameOver());
 			
-			System.out.println("Play again?");
-			play = true;
+			System.out.println("Play again? Y/N");
+			String playAgain = System.console().readLine();
+			play = (playAgain.equals("Y")) ? true : false;
 			
 		} while (play);
 		
@@ -51,8 +58,16 @@ public class BattleshipGame {
 		
 	}
 	
-	private void respondToShot() {
-	//	boolean hit = this.ocean.shootAt(location[0], location[1]);
+	private void fireShot(int[] location) {
+		int row = location[0];
+		int col = location[1];
+		
+		boolean hit = this.ocean.shootAt(row, col);				
+		System.out.println(hit ? "hit" : "miss");
+		
+		if (hit && this.ocean.getShipArray()[row][col].isSunk()) {
+			System.out.println("You just sank a " + this.ocean.getShipArray()[row][col].getShipType());
+		}
 	}
 
 }
