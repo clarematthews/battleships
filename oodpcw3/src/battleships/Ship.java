@@ -13,4 +13,14 @@ public class Ship {
 	String getShipType() {
 		return null;
 	}
+
+	public boolean okToPlaceShipAt(int x, int y, boolean dir, Ocean ocean) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void placeShipAt(int x, int y, boolean dir, Ocean ocean) {
+		// TODO Auto-generated method stub
+		
+	}
 }
