@@ -1,4 +1,4 @@
-package battleship;
+package battleships;
 
 /**
  * @author Dorian Redman
@@ -32,7 +32,7 @@ public class Ocean {
 	private void initFleet() {
 
 		// fleet array used to order the placement of ships from big to small
-		fleet[0] = new AirCraftCarrier();
+		fleet[0] = new AircraftCarrier();
 		fleet[1] = new Battleship();
 		fleet[2] = new Battleship();
 		fleet[3] = new Submarine();
