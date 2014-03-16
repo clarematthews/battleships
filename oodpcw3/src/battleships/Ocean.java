@@ -122,11 +122,26 @@ public class Ocean {
 		return false;
 	}
 
-	/*
-	 * @Override public String toString() {
-	 * 
-	 * }
-	 */
+	public String toString() { 
+		
+		StringBuilder buff = new StringBuilder();
+		buff.append(" ");
+		for (int i = 0; i < ships[0].length; i++) {
+			buff.append(" ");
+			buff.append(i);
+		}
+		buff.append("\n");
+
+		for (int i = 0; i < ships.length; i++) {
+			buff.append(i);
+			for (int j = 0; j < ships[0].length; j++) {
+				buff.append(" ");
+				buff.append(ships[i][j]);
+			}
+			buff.append("\n");
+		}
+		return buff.toString();
+	}
 	
 	
 }
