@@ -24,8 +24,6 @@ public class BattleshipGameTest {
 
 		String expectedMessage = "Welcome. Enter 'quit' at any time to exit.";
 		
-		game.createGame();
-		
 		assertEquals(expectedMessage, outContent.toString());		
 		
 	}

@@ -1,16 +1,18 @@
 package battleships;
 
+import java.util.Scanner;
+
 public class BattleshipGame {
 
 	public static void main(String[] args) {
-		BattleshipGame game = new BattleshipGame();
-		game.runGame();
+		new BattleshipGame();
 	}
 	
 	private Ocean ocean;
 	
 	public BattleshipGame() {
 		ocean = new Ocean();
+		this.runGame();
 	}
 	
 	private void runGame() {
@@ -18,6 +20,7 @@ public class BattleshipGame {
 		int[] location;
 		
 		System.out.println("Welcome. Enter 'quit' at any time to exit");
+		Scanner sc = new Scanner(System.in);
 		
 		do {	
 			
@@ -25,34 +28,35 @@ public class BattleshipGame {
 			
 			do {
 			
-				location = this.getInput();
+				location = this.getInput(sc);
 				this.fireShot(location);				
 				this.ocean.toString();
 				
 			} while (!this.ocean.isGameOver());
 			
 			System.out.println("Play again? Y/N");
-			String playAgain = System.console().readLine();
+			String playAgain = sc.nextLine();
 			play = (playAgain.equals("Y")) ? true : false;
 			
 		} while (play);
 		
+		sc.close();
+		
 	}
 	
 	
-	public void createGame() {
+	private void createGame() {
 		this.ocean.placeAllShipsRandomly();
 	}
 	
-	private int[] getInput() {
+	private int[] getInput(Scanner sc) {
 		
 		int[] location = new int[2];
-		
 		System.out.println("Fire shot:");
-		System.out.println("Row: ");
-		location[0] = Integer.parseInt(System.console().readLine()); // Check valid
-		System.out.println("Column: ");
-		location[1] = Integer.parseInt(System.console().readLine());
+		System.out.print("Row: ");
+		location[0] = sc.nextInt(); // Check valid
+		System.out.print("Column: ");
+		location[1] = sc.nextInt();
 		
 		return location;
 		
