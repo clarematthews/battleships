@@ -13,9 +13,9 @@ import java.util.Scanner;
 public class GameEngine extends Observable {
 
 	private Ocean ocean;
-	boolean waitingForRow;
-	int row;
-	boolean running;
+	private boolean waitingForRow;
+	private int row;
+	private boolean running;
 	
 	/**
 	 * 
@@ -29,10 +29,10 @@ public class GameEngine extends Observable {
 	
 	public void start() {
 			this.ocean.placeAllShipsRandomly();
-			this.emit("Welcome. Enter 'quit' at any time to exit\n"); // implement
-			this.emit("<Ocean display>\n");
-			this.emit("Fire shot\n");
-			this.emit("Row: ");
+			this.emitMessage("Welcome. Enter 'quit' at any time to exit\n"); // implement
+			this.emitMessage("<Ocean display>\n");
+			this.emitMessage("Fire shot\n");
+			this.emitMessage("Row: ");
 	}
 	
 	public void setFireCoordinate(double input) {
@@ -40,22 +40,22 @@ public class GameEngine extends Observable {
 		if (waitingForRow) {
 			row = (int)input;
 			waitingForRow = false;
-			this.emit("Column: ");
+			this.emitMessage("Column: ");
 		}
 		else {
 			try {
 				this.fireShot(row, (int) input);
 			}
 			catch(Exception ex) {
-				this.emit(ex.toString()+"\n");
+				this.emitMessage(ex.toString()+"\n");
 			}
-			this.emit("<Ocean display>\n");
+			this.emitMessage("<Ocean display>\n");
 			if(this.ocean.isGameOver()) {
-				this.emit("Play again? Y/N ");
+				this.emitMessage("Play again? Y/N ");
 			}
 			else {
 				waitingForRow = true;
-				this.emit("Row: ");
+				this.emitMessage("Row: ");
 			}
 		}
 		
@@ -79,26 +79,40 @@ public class GameEngine extends Observable {
 	
 
 	private void quit() {
-		this.emit("Goodbye!");
-		running = false;		
+		this.emitMessage("Goodbye!");
+		this.emitQuit();		
 	}
 
 	
 	private void fireShot(int row, int col) {
 		boolean hit = this.ocean.shootAt(row, col);				
-		this.emit(hit ? "hit\n" : "miss\n");
+		this.emitMessage(hit ? "hit\n" : "miss\n");
 		
 		if (hit && this.ocean.getShipArray()[row][col].isSunk()) {
-			this.emit("You just sank a " + this.ocean.getShipArray()[row][col].getShipType() + "\n");
+			this.emitMessage("You just sank a " + this.ocean.getShipArray()[row][col].getShipType() + "\n");
 		}
 	}
+
+	private void emitMessage(String message) {
+		GameEvent event = new GameEvent();
+		event.setType("msg");
+		event.setData(message);
+		this.emit(event);
+	}
 	
-	private void emit(String message) {
+	private void emitQuit() {
+		GameEvent event = new GameEvent();
+		event.setType("quit");
+		this.emit(event);
+	}
+	
+	private void emit(GameEvent event) {
 		this.setChanged();
-		this.notifyObservers(message);
+		this.notifyObservers(event);
 	}
 	
-	private void emitQuitEvent() {
-		
-	}
+	
+	
 }
+
+

@@ -13,6 +13,7 @@ public class BattleshipGame implements Observer {
 	}
 	
 	private GameEngine engine;
+	private boolean running;
 	
 	public BattleshipGame() {
 		
@@ -22,8 +23,9 @@ public class BattleshipGame implements Observer {
 		
 		InputStreamReader isr = new InputStreamReader(System.in);
 		StreamTokenizer st = new StreamTokenizer(isr);
+		running = true;
 		
-		while (true) {
+		while (running) {
 			try {
 				switch ( st.nextToken () ) {
 				case StreamTokenizer.TT_NUMBER:
@@ -41,8 +43,18 @@ public class BattleshipGame implements Observer {
 	   }
 	}
 	
+	
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.print(arg);
+		
+		GameEvent event = (GameEvent) arg;
+		
+		if(event.getType() == "msg") {
+			System.out.print(event.getData());
+		}
+		if(event.getType() == "quit") {
+			running = false;
+		}	
+		
 	}
 }
