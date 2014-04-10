@@ -4,7 +4,6 @@ package battleships;
  * @author Dorian Redman
  */
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Ocean {
@@ -55,7 +54,7 @@ public class Ocean {
 		boolean placed;
 		boolean dir = true;
 		int count = 0;
-		int maxloop = 10000;// probably infinite loop if it reaches here.
+		int maxloop = 30000;// probably infinite loop if it reaches here.
 
 		for (Ship s : fleet) {
 

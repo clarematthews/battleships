@@ -41,7 +41,7 @@ public class BattleshipGame {
 	public void createGame() {
 		this.ocean.placeAllShipsRandomly();
 		
-		///////////////////// temporary output!!!!!
+		///////////////////// temporary output for test!!!!!
 		for (int i=0; i<10; i++) {
 		System.out.println(Arrays.deepToString(this.ocean.ships[i]));
 		}
