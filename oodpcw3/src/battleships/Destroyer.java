@@ -13,7 +13,6 @@ public class Destroyer extends Ship implements ShipType {
 	 * return ship type
 	 *
 	 */
-
 	@Override
 	public String getShipType() {
        return "Destroyer";
@@ -21,7 +20,10 @@ public class Destroyer extends Ship implements ShipType {
 
 	@Override
 	public String toString() {
-		return "x or S";
+		if (isSunk())
+		   return "x";
+		else
+		   return "D";
 	}
 
 	

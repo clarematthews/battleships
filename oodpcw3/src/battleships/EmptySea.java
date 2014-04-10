@@ -14,7 +14,7 @@ public class EmptySea extends Ship implements ShipType {
 
 	@Override
 	public String toString() {
-		return "-";
+		return ".";
 	}
 
 }

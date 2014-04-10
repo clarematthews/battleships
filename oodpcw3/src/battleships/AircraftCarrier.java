@@ -17,10 +17,18 @@ public class AircraftCarrier extends Ship implements ShipType {
 	 * return ship type
 	 *
 	 */
-
 	@Override
 	public String getShipType() {
        return "Aircraft Carrier";
+	}
+	
+
+	@Override
+	public String toString() {
+		if (isSunk())
+		   return "x";
+		else
+		   return "A";
 	}
 
 }

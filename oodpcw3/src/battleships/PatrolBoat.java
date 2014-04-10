@@ -13,10 +13,16 @@ public class PatrolBoat extends Ship implements ShipType {
 	 * return ship type
 	 *
 	 */
-
 	@Override
 	public String getShipType() {
        return "Patrol Boat";
 	}
 
+	@Override
+	public String toString() {
+		if (isSunk())
+		   return "x";
+		else
+		   return "P";
+	}
 }

@@ -13,9 +13,16 @@ public class Battleship extends Ship implements ShipType {
 	 * return ship type
 	 *
 	 */
-
 	@Override
 	public String getShipType() {
        return "Battleship";
+	}
+
+	@Override
+	public String toString() {
+		if (isSunk())
+		   return "x";
+		else
+		   return "B";
 	}
 }
