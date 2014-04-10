@@ -19,4 +19,11 @@ public class Destroyer extends Ship implements ShipType {
        return "Destroyer";
 	}
 
+	@Override
+	public String toString() {
+		return "x or S";
+	}
+
+	
+	
 }

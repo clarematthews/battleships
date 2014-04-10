@@ -25,6 +25,9 @@ public class ShipFactory {
 		}
 		if(string.equals("patrolboat")){
 			return new PatrolBoat();
+		}		
+		if(string.equals("emptySea")){
+			return new EmptySea();
 		}
 		return null;
 		

@@ -1,9 +1,20 @@
 package battleships;
 
-public class EmptySea extends Ship {
+public class EmptySea extends Ship implements ShipType {
 
-	public EmptySea() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public boolean shootAt(int x, int y) {
+		return false;
+	}
+
+	@Override
+	public boolean isSunk() {
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "-";
 	}
 
 }

@@ -4,6 +4,7 @@ package battleships;
  * @author Dorian Redman
  */
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Ocean {
@@ -12,6 +13,7 @@ public class Ocean {
 	private int hitCount;
 	private int shipsSunk;
 	private Random rand;
+	private ShipFactory shipFactory = new ShipFactory();
 
 	private static int OCEAN_SIZE = 10;
 	private static int FLEET_SIZE = 11;
@@ -22,27 +24,29 @@ public class Ocean {
 		// initialise playing Grid
 		for (int row = 0; row < OCEAN_SIZE; row++) {
 			for (int col = 0; col < OCEAN_SIZE; col++) {
-				ships[row][col] = new EmptySea();
+				ships[row][col] = shipFactory.createShip("emptySea");
 			}
 		}
+
 		initFleet();
 
 	}
 
 	private void initFleet() {
+		
 
 		// fleet array used to order the placement of ships from big to small
-		fleet[0] = new AircraftCarrier();
-		fleet[1] = new Battleship();
-		fleet[2] = new Battleship();
-		fleet[3] = new Submarine();
-		fleet[4] = new Submarine();
-		fleet[5] = new Destroyer();
-		fleet[6] = new Destroyer();
-		fleet[7] = new PatrolBoat();
-		fleet[8] = new PatrolBoat();
-		fleet[9] = new PatrolBoat();
-		fleet[10] = new PatrolBoat();
+		fleet[0] = shipFactory.createShip("aircraftCarrier"); 
+		fleet[1] = shipFactory.createShip("battleship");
+		fleet[2] = shipFactory.createShip("battleship");
+		fleet[3] = shipFactory.createShip("submarine");
+		fleet[4] = shipFactory.createShip("submarine");
+		fleet[5] = shipFactory.createShip("destroyer");
+		fleet[6] = shipFactory.createShip("destroyer");
+		fleet[7] = shipFactory.createShip("patrolboat");
+		fleet[8] = shipFactory.createShip("patrolboat");
+		fleet[9] = shipFactory.createShip("patrolboat");
+		fleet[10] = shipFactory.createShip("patrolboat");
 	}
 
 	public void placeAllShipsRandomly() {

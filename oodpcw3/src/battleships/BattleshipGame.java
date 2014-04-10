@@ -1,10 +1,15 @@
 package battleships;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class BattleshipGame {
 
 	public static void main(String[] args) {
+
 		BattleshipGame game = new BattleshipGame();
 		game.runGame();
+		
 	}
 	
 	private Ocean ocean;
@@ -35,20 +40,32 @@ public class BattleshipGame {
 	
 	public void createGame() {
 		this.ocean.placeAllShipsRandomly();
+		
+		///////////////////// temporary output!!!!!
+		for (int i=1; i<10; i++) {
+		System.out.println(Arrays.deepToString(this.ocean.ships[i]));
+		}
+        /////////////////////////////////////////// 
 	}
 	
 	private int[] getInput() {
 		
 		int[] location = new int[2];
 		
-		System.out.println("Fire shot:");
+		System.out.println("Fire shots:");
 		System.out.println("Row: ");
-		location[0] = Integer.parseInt(System.console().readLine()); // Check valid
+		
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in); 	  
+		
+	//	location[0] = Integer.parseInt(System.console().readLine()); // Check valid
+		location[0] = scan.nextInt(); // Check valid
+
 		System.out.println("Column: ");
-		location[1] = Integer.parseInt(System.console().readLine());
+	//  location[1] = Integer.parseInt(System.console().readLine());
+		location[1] = scan.nextInt();
 		
 		return location;
-		
 	}
 	
 	private void respondToShot() {
