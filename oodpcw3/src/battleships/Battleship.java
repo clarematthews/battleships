@@ -20,9 +20,9 @@ public class Battleship extends Ship implements ShipType {
 
 	@Override
 	public String toString() {
-		if (isSunk())
+		if (this.isSunk)
 		   return "x";
 		else
-		   return "B";
+		   return "S";
 	}
 }

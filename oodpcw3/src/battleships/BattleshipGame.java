@@ -41,11 +41,9 @@ public class BattleshipGame {
 	public void createGame() {
 		this.ocean.placeAllShipsRandomly();
 		
-		///////////////////// temporary output for test!!!!!
-		for (int i=0; i<10; i++) {
-		System.out.println(Arrays.deepToString(this.ocean.ships[i]));
-		}
-        /////////////////////////////////////////// 
+		///////////////////// temporary output just for test!!!!!
+        System.out.println(this.ocean);
+        /////////////////////////////////////////////////////////
 	}
 	
 	private int[] getInput() {
@@ -64,6 +62,11 @@ public class BattleshipGame {
 		System.out.println("Column: ");
 	//  location[1] = Integer.parseInt(System.console().readLine());
 		location[1] = scan.nextInt();
+		
+		////////////////////////////////////////// temporary output for test!!!!!
+		this.ocean.shootAt(location[1], location[0]);
+		System.out.println(this.ocean);
+		/////////////////////////////////////////////////////////////////////////
 		
 		return location;
 	}

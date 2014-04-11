@@ -2,21 +2,36 @@ package battleships;
 
 public class Ship {
 
-	/**
-	 * ship length
-	 */
+
 	protected int length;
-
 	private int bowRow;
+	private int hits = 0;
+	protected boolean isSunk = false;
 	private int bowColumn;
-	private boolean isHorizontal;
+	private boolean isHorizontal = false;
 
 	/**
-	 * to be override
+	 * To be override
 	 */
 	public String getShipType() {
 		return null;
 	}
+	
+
+	/**
+	 * Add hits. If count of hits is equal to length is changing isSunk to true
+	 */
+	public void addHits() {
+		this.hits++;
+		
+		if (this.hits == this.length)
+			this.isSunk = true;
+	}
+	
+
+	/**
+	 * getters and setters
+	 */
 
 	public int getBowRow() {
 		return bowRow;
@@ -40,7 +55,7 @@ public class Ship {
 
 	
 	/**
-	 * 
+	 * Checks for empty spot on left from begining of ship
 	 */
 	
 	public boolean isEmptySpoatOnLeft(int x, int y, boolean dir, Ocean ocean) {
@@ -71,7 +86,7 @@ public class Ship {
 	
 	
 	/**
-	 * 
+	 *  Checks for empty spot on top of the ship 
 	 */
 	
 	public boolean isEmptySpoatOnTop(int x, int y, boolean dir, Ocean ocean) {
@@ -106,7 +121,7 @@ public class Ship {
 	
 	
 	/**
-	 * 
+	 *  Check if ship fits in the frame
 	 */
 
 	public boolean okToPlaceShipAt(int x, int y, boolean dir, Ocean ocean) {
@@ -131,14 +146,14 @@ public class Ship {
 	
 	
 	/**
-	 * 
+	 * Places ship
 	 */
 
 	public void placeShipAt(int x, int y, boolean dir, Ocean ocean) {
 		
 		setBowRow(x);
 		setBowColumn(y);
-		setHorizontal(dir);
+		setHorizontal(!dir);
 
 		if (!dir) {
 			for (int i = 0; i <= this.length-1; i++) {
@@ -151,20 +166,7 @@ public class Ship {
 				ocean.ships[x - i][y] = this;
 			}
 		}
-		
+				
 	}
 
-	
-	
-	/**
-	 * 
-	 */
-	
-	public boolean shootAt(int x, int y) {
-		return false;
-	}
-
-	public boolean isSunk() {
-		return false;
-	}
 }

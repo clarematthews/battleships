@@ -2,15 +2,15 @@ package battleships;
 
 public class EmptySea extends Ship implements ShipType {
 
+	/**
+	 * return ship type
+	 *
+	 */
 	@Override
-	public boolean shootAt(int x, int y) {
-		return false;
+	public String getShipType() {
+       return "Empty Sea";
 	}
-
-	@Override
-	public boolean isSunk() {
-		return false;
-	}
+	
 
 	@Override
 	public String toString() {
