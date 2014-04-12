@@ -11,6 +11,7 @@ public class AircraftCarrier extends Ship implements ShipType {
 	 */
 	public AircraftCarrier() {
 		this.length = 5;
+		this.hit = new boolean[5];
 	}
 
 	/**
@@ -25,7 +26,7 @@ public class AircraftCarrier extends Ship implements ShipType {
 
 	@Override
 	public String toString() {
-		if (this.isSunk)
+		if (this.isSunk())
 		   return "x";
 		else
 		   return "S";

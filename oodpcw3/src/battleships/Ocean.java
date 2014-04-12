@@ -117,9 +117,9 @@ public class Ocean {
 	public boolean shootAt(int row, int column) {
 
 		if (isOccupied(row, column)) {
-			/////////////////////////////////// temporary output just for test!!!!!
+			/////////////////////////////////// temporary output for testing ships!!!!! DELETE
 			System.out.println("You hit "+this.ships[row][column].getShipType());
-			this.ships[row][column].addHits();
+			this.ships[row][column].shootAt(row, column);
 			///////////////////////////////////////////////////////////////////////
 			++hitCount;
 			++shotsFired;

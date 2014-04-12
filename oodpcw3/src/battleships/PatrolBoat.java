@@ -7,6 +7,7 @@ public class PatrolBoat extends Ship implements ShipType {
 	 */
 	public PatrolBoat() {
 		this.length = 1;
+		this.hit = new boolean[1];
 	}
 
 	/**
@@ -20,7 +21,7 @@ public class PatrolBoat extends Ship implements ShipType {
 
 	@Override
 	public String toString() {
-		if (this.isSunk)
+		if (this.isSunk())
 		   return "x";
 		else
 		   return "S";

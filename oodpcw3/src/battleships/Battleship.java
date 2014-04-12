@@ -7,6 +7,7 @@ public class Battleship extends Ship implements ShipType {
 	 */
 	public Battleship() {
 		this.length = 4;
+		this.hit = new boolean[4];
 	}
 
 	/**
@@ -20,7 +21,7 @@ public class Battleship extends Ship implements ShipType {
 
 	@Override
 	public String toString() {
-		if (this.isSunk)
+		if (this.isSunk())
 		   return "x";
 		else
 		   return "S";

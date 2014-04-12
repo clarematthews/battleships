@@ -1,6 +1,5 @@
 package battleships;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class BattleshipGame {
@@ -41,7 +40,7 @@ public class BattleshipGame {
 	public void createGame() {
 		this.ocean.placeAllShipsRandomly();
 		
-		///////////////////// temporary output just for test!!!!!
+		///////////////////// temporary output just for testing ships DELETE!!!!!
         System.out.println(this.ocean);
         /////////////////////////////////////////////////////////
 	}
@@ -63,7 +62,7 @@ public class BattleshipGame {
 	//  location[1] = Integer.parseInt(System.console().readLine());
 		location[1] = scan.nextInt();
 		
-		////////////////////////////////////////// temporary output for test!!!!!
+		////////////////////////////////////////// temporary output for testing ships DELETE!!!!!
 		this.ocean.shootAt(location[1], location[0]);
 		System.out.println(this.ocean);
 		/////////////////////////////////////////////////////////////////////////
