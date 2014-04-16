@@ -11,16 +11,25 @@ public class AircraftCarrier extends Ship implements ShipType {
 	 */
 	public AircraftCarrier() {
 		this.length = 5;
+		this.hit = new boolean[5];
 	}
 
 	/**
 	 * return ship type
 	 *
 	 */
-
 	@Override
 	public String getShipType() {
        return "Aircraft Carrier";
+	}
+	
+
+	@Override
+	public String toString() {
+		if (this.isSunk())
+		   return "x";
+		else
+		   return "S";
 	}
 
 }

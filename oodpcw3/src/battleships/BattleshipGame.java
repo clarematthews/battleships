@@ -55,7 +55,7 @@ public class BattleshipGame implements Observer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	   }
+		}
 	}
 	
 	/**
@@ -65,7 +65,6 @@ public class BattleshipGame implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		
 		GameEvent event = (GameEvent) arg;
 
 		System.out.print(event.getData());
@@ -73,6 +72,5 @@ public class BattleshipGame implements Observer {
 		if(event.getType() == "quit") {
 			running = false;
 		}	
-		
 	}
 }

@@ -7,15 +7,23 @@ public class Battleship extends Ship implements ShipType {
 	 */
 	public Battleship() {
 		this.length = 4;
+		this.hit = new boolean[4];
 	}
 
 	/**
 	 * return ship type
 	 *
 	 */
-
 	@Override
 	public String getShipType() {
        return "Battleship";
+	}
+
+	@Override
+	public String toString() {
+		if (this.isSunk())
+		   return "x";
+		else
+		   return "S";
 	}
 }
