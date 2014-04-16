@@ -6,6 +6,11 @@ import java.io.StreamTokenizer;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This class accepts user input, passes it to the GameEngine class and responds to updates of GameEvents. 
+ * @author clare
+ *
+ */
 public class BattleshipGame implements Observer {
 
 	public static void main(String[] args) {
@@ -27,6 +32,9 @@ public class BattleshipGame implements Observer {
 		engine.addObserver(this);
 	}
 	
+	/**
+	 * Start game engine, accept user inputs and pass to engine.
+	 */
 	public void run() {
 		engine.start();
 		InputStreamReader isr = new InputStreamReader(System.in);
@@ -50,7 +58,11 @@ public class BattleshipGame implements Observer {
 	   }
 	}
 	
-	
+	/**
+	 * Updates of GameEvents
+	 * @param o the GameEngine observed
+	 * @param arg the GameEvent that occurred
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		
