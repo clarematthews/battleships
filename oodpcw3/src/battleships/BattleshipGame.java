@@ -1,77 +1,76 @@
 package battleships;
 
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
+import java.util.Observable;
+import java.util.Observer;
 
-public class BattleshipGame {
+/**
+ * This class accepts user input, passes it to the GameEngine class and responds to updates of GameEvents. 
+ * @author clare
+ *
+ */
+public class BattleshipGame implements Observer {
 
 	public static void main(String[] args) {
-
 		BattleshipGame game = new BattleshipGame();
-		game.runGame();
-		
+		game.run();
 	}
 	
-	private Ocean ocean;
+	private GameEngine engine;
+	private boolean running;
 	
 	public BattleshipGame() {
-		ocean = new Ocean();
+		running = true;
+		GameEngine engine = new GameEngine();
+		this.setEngine(engine);
 	}
 	
-	private void runGame() {
-		boolean play;
-		int[] location;
- 		
-		System.out.println("Welcome. Enter 'quit' at any time to exit");
-		
-		do {	
-			this.createGame();
-			do {
-				location = this.getInput();
-			} while (!this.ocean.isGameOver());
-			
-			System.out.println("Play again?");
-			play = true;
-			
-		} while (play);
-		
+	public void setEngine(GameEngine engine) {
+		this.engine = engine;
+		engine.addObserver(this);
 	}
 	
-	
-	public void createGame() {
-		this.ocean.placeAllShipsRandomly();
+	/**
+	 * Start game engine, accept user inputs and pass to engine.
+	 */
+	public void run() {
+		engine.start();
+		InputStreamReader isr = new InputStreamReader(System.in);
+		StreamTokenizer st = new StreamTokenizer(isr);
 		
-		///////////////////// temporary output just for testing ships DELETE!!!!!
-        System.out.println(this.ocean);
-        /////////////////////////////////////////////////////////
+		while (running) {
+			try {
+				switch ( st.nextToken () ) {
+				case StreamTokenizer.TT_NUMBER:
+					engine.setFireCoordinate(st.nval);
+					break;
+				case StreamTokenizer.TT_WORD:
+					engine.setStringCommand(st.sval);
+					break;
+				default:
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	private int[] getInput() {
-		
-		int[] location = new int[2];
-		
-		System.out.println("Fire shots:");
-		System.out.println("Row: ");
-		
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in); 	  
-		
-	//	location[0] = Integer.parseInt(System.console().readLine()); // Check valid
-		location[0] = scan.nextInt(); // Check valid
+	/**
+	 * Updates of GameEvents
+	 * @param o the GameEngine observed
+	 * @param arg the GameEvent that occurred
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		GameEvent event = (GameEvent) arg;
 
-		System.out.println("Column: ");
-	//  location[1] = Integer.parseInt(System.console().readLine());
-		location[1] = scan.nextInt();
-		
-		////////////////////////////////////////// temporary output for testing ships DELETE!!!!!
-		this.ocean.shootAt(location[1], location[0]);
-		System.out.println(this.ocean);
-		/////////////////////////////////////////////////////////////////////////
-		
-		return location;
-	}
-	
-	private void respondToShot() {
-	//	boolean hit = this.ocean.shootAt(location[0], location[1]);
-	}
+		System.out.print(event.getData());
 
+		if(event.getType() == "quit") {
+			running = false;
+		}	
+	}
 }
