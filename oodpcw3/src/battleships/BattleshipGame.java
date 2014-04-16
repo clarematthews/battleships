@@ -9,21 +9,28 @@ import java.util.Observer;
 public class BattleshipGame implements Observer {
 
 	public static void main(String[] args) {
-		new BattleshipGame();
+		BattleshipGame game = new BattleshipGame();
+		game.run();
 	}
 	
 	private GameEngine engine;
 	private boolean running;
 	
 	public BattleshipGame() {
-		
-		engine = new GameEngine();
+		running = true;
+		GameEngine engine = new GameEngine();
+		this.setEngine(engine);
+	}
+	
+	public void setEngine(GameEngine engine) {
+		this.engine = engine;
 		engine.addObserver(this);
+	}
+	
+	public void run() {
 		engine.start();
-		
 		InputStreamReader isr = new InputStreamReader(System.in);
 		StreamTokenizer st = new StreamTokenizer(isr);
-		running = true;
 		
 		while (running) {
 			try {
@@ -48,10 +55,9 @@ public class BattleshipGame implements Observer {
 	public void update(Observable o, Object arg) {
 		
 		GameEvent event = (GameEvent) arg;
-		
-		if(event.getType() == "msg") {
-			System.out.print(event.getData());
-		}
+
+		System.out.print(event.getData());
+
 		if(event.getType() == "quit") {
 			running = false;
 		}	

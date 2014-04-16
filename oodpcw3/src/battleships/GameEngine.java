@@ -4,7 +4,6 @@
 package battleships;
 
 import java.util.Observable;
-import java.util.Scanner;
 
 /**
  * @author clare
@@ -15,21 +14,23 @@ public class GameEngine extends Observable {
 	private Ocean ocean;
 	private boolean waitingForRow;
 	private int row;
-	private boolean running;
 	
 	/**
 	 * 
 	 */
 	public GameEngine() {
-		ocean = new Ocean();
 		waitingForRow = true;
-		running = true;
+		Ocean ocean = new Ocean();
+		this.setOcean(ocean);
 	}
 	
+	public void setOcean(Ocean ocean) {
+		this.ocean = ocean;
+	}
 	
 	public void start() {
 			this.ocean.placeAllShipsRandomly();
-			this.emitMessage("Welcome. Enter 'quit' at any time to exit\n"); // implement
+			this.emitMessage("Welcome. Enter 'quit' at any time to exit\n");
 			this.emitMessage("<Ocean display>\n");
 			this.emitMessage("Fire shot\n");
 			this.emitMessage("Row: ");
@@ -47,7 +48,7 @@ public class GameEngine extends Observable {
 				this.fireShot(row, (int) input);
 			}
 			catch(Exception ex) {
-				this.emitMessage(ex.toString()+"\n");
+				System.err.println(ex.toString());
 			}
 			this.emitMessage("<Ocean display>\n");
 			if(this.ocean.isGameOver()) {
@@ -64,23 +65,17 @@ public class GameEngine extends Observable {
 	public void setStringCommand(String input) {
 		switch(input) {
 		case "quit":
-			this.quit();
+			this.emitQuit();
 			break;
 		case "Y":
 			this.start();
 			break;
 		case "N":
-			this.quit();
+			this.emitQuit();
 			break;
 		default:
 			break;
 		}
-	}
-	
-
-	private void quit() {
-		this.emitMessage("Goodbye!");
-		this.emitQuit();		
 	}
 
 	
@@ -93,16 +88,17 @@ public class GameEngine extends Observable {
 		}
 	}
 
-	private void emitMessage(String message) {
+	public void emitMessage(String message) {
 		GameEvent event = new GameEvent();
 		event.setType("msg");
 		event.setData(message);
 		this.emit(event);
 	}
 	
-	private void emitQuit() {
+	public void emitQuit() {
 		GameEvent event = new GameEvent();
 		event.setType("quit");
+		event.setData("Goodbye!");
 		this.emit(event);
 	}
 	
@@ -110,7 +106,6 @@ public class GameEngine extends Observable {
 		this.setChanged();
 		this.notifyObservers(event);
 	}
-	
 	
 	
 }
