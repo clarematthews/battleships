@@ -38,6 +38,11 @@ public class GameEngine extends Observable {
 	
 	public void setFireCoordinate(double input) {
 		
+		if (input < 0 || input > 9) {
+			this.emitMessage("Invalid input. Enter 0 - 9: ");
+			return;
+		}
+		
 		if (waitingForRow) {
 			row = (int)input;
 			waitingForRow = false;
@@ -74,6 +79,7 @@ public class GameEngine extends Observable {
 			this.emitQuit();
 			break;
 		default:
+			this.emitMessage("Invalid input. Try again: ");
 			break;
 		}
 	}

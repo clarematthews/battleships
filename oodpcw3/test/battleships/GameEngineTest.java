@@ -49,6 +49,14 @@ public class GameEngineTest implements Observer {
 		engine.setFireCoordinate(1);
 		assertEquals(expectedMsgCount, msgCounter);
 		
+		expectedMsgCount = 9;
+		engine.setFireCoordinate(10);
+		assertEquals(expectedMsgCount, msgCounter);
+		
+		expectedMsgCount = 10;
+		engine.setFireCoordinate(-2);
+		assertEquals(expectedMsgCount, msgCounter);
+
 	}
 	
 	@Test
@@ -93,6 +101,7 @@ public class GameEngineTest implements Observer {
 		engine.setStringCommand("quit");
 		assertEquals(expectedQuitCount,quitCounter);
 		
+		expectedMsgCount = 5;
 		engine.setStringCommand("string");
 		assertEquals(expectedMsgCount,msgCounter);
 		assertEquals(expectedQuitCount,quitCounter);
