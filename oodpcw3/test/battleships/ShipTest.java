@@ -8,8 +8,8 @@ public class ShipTest {
 
 	@Test
 	public void testOnlyOnce() {
-
-		Ship ship = new Ship();
+		//no constructor for class ship
+		//Ship ship = new Ship();
 	}
 
 }

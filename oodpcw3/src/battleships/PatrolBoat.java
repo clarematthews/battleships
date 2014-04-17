@@ -1,13 +1,13 @@
 package battleships;
 
-public class PatrolBoat extends Ship implements ShipType {
+public class PatrolBoat extends Ship  {
 
 	/**
 	 * constructor setting ship length
 	 */
 	public PatrolBoat() {
 		this.length = 1;
-		this.hit = new boolean[1];
+		this.hit = new boolean[length];
 	}
 
 	/**
@@ -18,7 +18,12 @@ public class PatrolBoat extends Ship implements ShipType {
 	public String getShipType() {
        return "Patrol Boat";
 	}
-
+	
+	@Override
+	public int getLength(){
+		return length;
+	}
+	
 	@Override
 	public String toString() {
 		if (this.isSunk())

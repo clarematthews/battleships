@@ -1,6 +1,6 @@
 package battleships;
 
-public class Ship {
+abstract public class Ship {
 
 	protected int length;
 	protected boolean[] hit;
@@ -39,19 +39,10 @@ public class Ship {
 	public void setSunk(boolean sunk) {
 		this.sunk = sunk;
 	}
-
-	public int getLength() {
-		return length;
-	}
-
-
-	/**
-	 * To be override
-	 */
-	public String getShipType() {
-		return null;
-	}
-
+	//to be overridden in subclasses
+	abstract public int getLength(); 
+	abstract public String getShipType();
+	
 	/**
 	 * Marks the hit the array if the ship has been shoot
 	 */
@@ -83,110 +74,103 @@ public class Ship {
 		return true;
 	}
 	
-	/**
-	 * Checks for unoccupied spot on left from beginning of horizontal ship
-	 */	
-	public boolean isEmptySpoatOnLeft(int x, int y, boolean dir, Ocean ocean) {
-		// check end                    // check end-bit
-		if (y - this.length - 1 >= 0) { if (!ocean.ships[x][y - this.length - 1 ].toString().equals(".")) return false;	
-		                                // check both end corners
-		                                if (x+1 <= 9 && !ocean.ships[x+1][y - this.length - 1 ].toString().equals(".")) return false;	
-		                                if (x-1 >= 0 && !ocean.ships[x-1][y - this.length - 1 ].toString().equals(".")) return false;	
-		                              }
-		
-		// check front                  // check front-bit
-		if ( y+1 <= 9)                { if (!ocean.ships[x][y+1 ].toString().equals(".")) return false;
-		                                // check both end corners
-		                                if (x+1 <= 9 && !ocean.ships[x+1][y+1 ].toString().equals(".")) return false;
-		                                if (x-1 >= 0 && !ocean.ships[x-1][y+1 ].toString().equals(".")) return false;
-		                              }		
-		
-		for (int i = 0; i <= this.length; i++) {
-			// check  actual place
-			if (!ocean.ships[x][y- i].toString().equals("."))   return false;
-			
-			// check along both sides
-			if (x-1 >= 0) { if (!ocean.ships[x-1][y - i].toString().equals(".")) return false;}
-			if (x+1 <= 9) { if (!ocean.ships[x+1][y - i].toString().equals(".")) return false;}
+
+	public boolean okToPlaceShipAt(int row, int column, boolean horizontal,
+			Ocean ocean) {
+
+		return ((checkAdjsides(row, column, ocean, horizontal)) && 
+				((checkAdjBehindFront(row, column, ocean, horizontal))));
+	}
+
+	private boolean checkAdjsides(int row, int column, Ocean ocean, boolean horizontal) {
+
+		int x = row, y = column;
+
+		for (int i = this.getLength(); i > 0; --i) {
+
+			if (!inBounds(x, y)) 
+				return false;
+
+			if (checkAdjcells(x, y, ocean, horizontal))
+				return false;
+
+			if (horizontal)
+				++y; 
+			else
+				++x;
+
 		}
 		return true;
 	}
-	
-	
-	/**
-	 *  Checks for unoccupied spot on top of the vertical ship 
-	 */
-	public boolean isEmptySpoatOnTop(int x, int y, boolean dir, Ocean ocean) {
-		// check end                   // check end-bit
-		if (x - this.length - 1 >= 0) {if (!ocean.ships[x - this.length - 1 ][y].toString().equals(".")) return false;
-		
-		
-		                               // check both end corners
-		                               if (y+1 <= 9 && !ocean.ships[x - this.length - 1 ][y+1].toString().equals(".")) return false;
-		                               if (y-1 >= 0 && !ocean.ships[x - this.length - 1 ][y-1].toString().equals(".")) return false;
-		                              }                                
-		
-		// check front                 // check front-bit
-        if (x+1 <= 9)                 {if (!ocean.ships[x + 1 ][y].toString().equals(".")) return false;
-                                       // check both front corners
-                                       if (y+1 <= 9 && !ocean.ships[x + 1 ][y+1].toString().equals(".")) return false;
-                                       if (y-1 >= 0 && !ocean.ships[x + 1 ][y-1].toString().equals(".")) return false;
-                                      }
-		
-		for (int i = 0; i <= this.length; i++) {
-			    // check actual place
-				if (!ocean.ships[x - i][y].toString().equals(".")) return false;	
-				
-				// check along both sides
-				if (y-1 >= 0) { if (!ocean.ships[x-i][y - 1].toString().equals(".")) return false;}
-				if (y+1 <= 9) { if (!ocean.ships[x-i][y + 1].toString().equals(".")) return false;}
+
+	private boolean checkAdjBehindFront(int row, int column, Ocean ocean,boolean horizontal) {
+
+		int x = row, y = column;
+		for (int i = 0; i < 2; i++) {
+
+			if (horizontal) 
+				y = (i == 0) ? y -= 1 : y + this.getLength() + 1;
+
+			else 
+				x = (i == 0) ? x -= 1 : x + this.getLength() + 1;
+
+			if (!inBounds(x, y))
+				return false;
+
+			if (checkAdjcells(x, y, ocean, horizontal))
+				return false;
 		}
 		return true;
-	}	
-	
-	/**
-	 *  Check if ship fits in the frame
-	 */
-	public boolean okToPlaceShipAt(int x, int y, boolean dir, Ocean ocean) {
-		
-		int leftWall = y - this.length;
-		int top = x - this.length;
 
-		if (dir) {
-			if (top > 0 && isEmptySpoatOnTop(x, y, dir, ocean)) {
-				return true;
-			}
-		}
-		
-		if (!dir) {
-			if (leftWall > 0 && isEmptySpoatOnLeft(x, y, dir, ocean)) {
-				return true;
-			}
-		}
-     return false;
-	}	
-	
-	/**
-	 * Places ship
-	 */
-	public void placeShipAt(int x, int y, boolean dir, Ocean ocean) {
-		
-		setBowRow(x);
-		setBowColumn(y);
-		setHorizontal(!dir);
-
-		if (!dir) {
-			for (int i = 0; i <= this.length-1; i++) {
-				ocean.ships[x][y - i] = this;
-			}
-		}
-
-		if (dir) {
-			for (int i = 0; i <= this.length-1; i++) {
-				ocean.ships[x - i][y] = this;
-			}
-		}
-				
 	}
 
+	private boolean checkAdjcells(int row, int column, Ocean ocean,
+			boolean horizontal) {
+		int x = row, y = column;
+
+		if (ocean.isOccupied(x, y))
+			return true;
+
+		if (horizontal) {
+			int xminus = (x == 0) ? 0 : x - 1;
+			int xplus = (x == 9) ? 9 : x + 1;
+
+			if ((ocean.isOccupied(xminus, y)) || (ocean.isOccupied(xplus, y)))
+				return true;
+		} else {
+			int yminus = (y == 0) ? 0 : y - 1;
+			int yplus = (y == 9) ? 9 : y + 1;
+
+			if ((ocean.isOccupied(x, yminus)) || (ocean.isOccupied(x, yplus)))
+				return true;
+		}
+		return false;
+	}
+
+	private boolean inBounds(int row, int column) {
+
+		if (row < 0 || row > 9)
+			return false;
+		if (column < 0 || column > 9)
+			return false;
+		return true;
+	}
+	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+
+		setBowRow(row);
+		setBowColumn(column);
+		setHorizontal(horizontal);
+
+
+		ocean.getShipArray()[row][column] = this;
+		for (int i = 0; i < this.length; i++) {
+			if (!horizontal) 
+				ocean.getShipArray()[bowRow + i][bowColumn] = this;
+
+			if (horizontal) 
+				ocean.getShipArray()[bowRow][bowColumn + i] = this;
+
+		}
+	}
+	
 }

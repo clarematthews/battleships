@@ -1,6 +1,6 @@
 package battleships;
 
-public class Battleship extends Ship implements ShipType {
+public class Battleship extends Ship {
 
 	/**
 	 * constructor setting ship length
@@ -19,6 +19,11 @@ public class Battleship extends Ship implements ShipType {
        return "Battleship";
 	}
 
+	@Override
+	public int getLength(){
+		return length;
+	}
+	
 	@Override
 	public String toString() {
 		if (this.isSunk())

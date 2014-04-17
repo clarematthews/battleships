@@ -1,29 +1,21 @@
 package battleships;
 
-import battleships.Ship;
-import battleships.ShipType;
+public class AircraftCarrier extends Ship {	
 
-
-public class AircraftCarrier extends Ship implements ShipType {	
-
-	/**
-	 * constructor setting ship length
-	 */
 	public AircraftCarrier() {
 		this.length = 5;
-		this.hit = new boolean[5];
+		this.hit = new boolean[length];
 	}
-
-	/**
-	 * return ship type
-	 *
-	 */
+	
 	@Override
 	public String getShipType() {
        return "Aircraft Carrier";
-	}
+	} 
 	
-
+	@Override
+	public int getLength(){
+		return length;
+	}
 	@Override
 	public String toString() {
 		if (this.isSunk())

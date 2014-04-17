@@ -1,12 +1,17 @@
 package battleships;
 
-public class EmptySea extends Ship implements ShipType {
+public class EmptySea extends Ship {
 	
 	/**
 	 * constructor setting ship length
 	 */
 	public EmptySea() {
 		this.length = 1;
+	}
+	
+	@Override
+	public int getLength(){
+		return length;
 	}
 	
 	/**
