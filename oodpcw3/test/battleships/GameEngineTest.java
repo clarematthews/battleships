@@ -45,15 +45,15 @@ public class GameEngineTest implements Observer {
 		engine.setFireCoordinate(1);
 		assertEquals(expectedMsgCount, msgCounter);
 		
-		expectedMsgCount = 8;
+		expectedMsgCount = 9;
 		engine.setFireCoordinate(1);
 		assertEquals(expectedMsgCount, msgCounter);
 		
-		expectedMsgCount = 9;
+		expectedMsgCount = 10;
 		engine.setFireCoordinate(10);
 		assertEquals(expectedMsgCount, msgCounter);
 		
-		expectedMsgCount = 10;
+		expectedMsgCount = 11;
 		engine.setFireCoordinate(-2);
 		assertEquals(expectedMsgCount, msgCounter);
 

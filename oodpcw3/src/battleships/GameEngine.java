@@ -76,6 +76,7 @@ public class GameEngine extends Observable {
 			}
 			this.emitMessage(ocean.toString());
 			if(this.ocean.isGameOver()) {
+				this.emitMessage("Congratulations, you sank the fleet! \n You had " + ocean.getHitCount() + " hits from " + ocean.getShotsFired() + " shots.");
 				this.emitMessage("Play again? Y/N ");
 			}
 			else {
