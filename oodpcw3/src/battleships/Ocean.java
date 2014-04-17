@@ -13,7 +13,7 @@ public class Ocean {
 	private int shipsSunk;
 	private Random rand;
 	private ShipFactory shipFactory = new ShipFactory();
-
+	private static int TOTAL_FLEET_SPACES = 27;
 	private static int OCEAN_SIZE = 10;
 	private static int FLEET_SIZE = 11;
 	Ship[][] ships = new Ship[OCEAN_SIZE][OCEAN_SIZE];
@@ -53,16 +53,13 @@ public class Ocean {
 		int x = 0, y = 0;
 		boolean placed;
 		boolean dir = true;
-		int count = 0;
-		int maxloop = 10000;// probably infinite loop if it reaches here.
-
+		
 		for (Ship s : fleet) {
 
 			placed = false;
 
 			while (!placed) {
 
-				count++;
 				// count used to break out of infinite loop
 				// generate random x, y, horizontal
 
@@ -74,14 +71,24 @@ public class Ocean {
 					s.placeShipAt(x, y, dir, this);
 					placed = true;
 				}
-
-				if (count > maxloop)
-					return;// to BattleshipGame main to re-init debug
-
 			}
 		}
+		
 	}
-
+	public boolean isCorrectShipCount(){
+		int shipcount=0;
+		for (int row = 0; row < 10; row++) {
+			for (int col = 0; col < 10; col++) {
+				if (this.getShipArray()[row][col].getShipType() != "Empty Sea")
+					shipcount++;//count for ships
+				}
+			}
+		
+		if(shipcount != TOTAL_FLEET_SPACES) 
+			return false;
+		return true;
+		}
+	
 	public int getHitCount() {
 		return hitCount;
 	}
@@ -117,10 +124,6 @@ public class Ocean {
 	public boolean shootAt(int row, int column) {
 
 		if (isOccupied(row, column)) {
-			/////////////////////////////////// temporary output for testing ships!!!!! DELETE
-			System.out.println("You hit "+this.ships[row][column].getShipType());
-			this.ships[row][column].shootAt(row, column);
-			///////////////////////////////////////////////////////////////////////
 			++hitCount;
 			++shotsFired;
 			return true;

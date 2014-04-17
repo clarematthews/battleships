@@ -4,14 +4,13 @@ abstract public class Ship {
 
 	protected int length;
 	protected boolean[] hit;
-	private boolean sunk = false;
+	//private boolean sunk = false;
 	private int bowRow;
 	private int bowColumn;
-	private boolean horizontal = false;
-	
-	/**
-	 * Getters and setters
-	 */
+	private boolean horizontal = true;
+
+	// Getters and setters
+
 	public int getBowRow() {
 		return bowRow;
 	}
@@ -27,7 +26,7 @@ abstract public class Ship {
 	public void setBowColumn(int bowColumn) {
 		this.bowColumn = bowColumn;
 	}
-	
+
 	public boolean isHorizontal() {
 		return horizontal;
 	}
@@ -36,66 +35,68 @@ abstract public class Ship {
 		this.horizontal = horizontal;
 	}
 	
-	public void setSunk(boolean sunk) {
-		this.sunk = sunk;
-	}
-	//to be overridden in subclasses
-	abstract public int getLength(); 
+	// to be overridden in subclasses
+	abstract public int getLength();
+
 	abstract public String getShipType();
-	
-	/**
-	 * Marks the hit the array if the ship has been shoot
-	 */
-	public boolean shootAt(int x, int y) {
-		for (int i=0;i<=this.length;i++) {
-			if (this.bowRow == x + i && !isHorizontal()) {
-				this.hit[i] = true;				
-                isSunk();
-                return true;
-				}
-			if (this.bowColumn == y + i && isHorizontal() ) {
-				this.hit[i] = true;				
-                isSunk();
-                return true;
-				}	
-		}	
-		return false;
-	}	
 
 	/**
-	 * Returns true is ship is sunk
+	 * Marks the hit array if the ship has been shot
+	 */
+	
+	public boolean shootAt(int x, int y) {
+		for (int i = 0; i < this.getLength(); i++) {
+			System.out.println(x+" "+y+" "+hit[i]);
+			if (this.bowRow == x && this.bowColumn == y ) {
+				
+				if(this.isSunk())
+					return false;
+				else{
+				    this.hit[i] = true;
+				    return true;
+				}
+			}
+			if (this.isHorizontal())
+				++y;
+			else
+				++x;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if ship is sunk
 	 */
 	public boolean isSunk() {
-		for (int ii=0;ii<this.hit.length;ii++) {
-			if (hit[ii] == false)
-			return false;
+		for (int i = 0; i < this.hit.length; i++) {
+			if (hit[i] == false)
+				return false;
 		}
-		setSunk(true);
-		return true;
+	   return true;
 	}
-	
 
-	public boolean okToPlaceShipAt(int row, int column, boolean horizontal,
+	public boolean okToPlaceShipAt(int row, int column, boolean hori,
 			Ocean ocean) {
 
-		return ((checkAdjsides(row, column, ocean, horizontal)) && 
-				((checkAdjBehindFront(row, column, ocean, horizontal))));
+		return ((checkAdjsides(row, column, ocean, hori)) && ((checkAdjBehindFront(
+				row, column, ocean, hori))));
 	}
 
-	private boolean checkAdjsides(int row, int column, Ocean ocean, boolean horizontal) {
+	private boolean checkAdjsides(int row, int column, Ocean ocean,
+			boolean hori) {
 
 		int x = row, y = column;
 
 		for (int i = this.getLength(); i > 0; --i) {
 
-			if (!inBounds(x, y)) 
+			if (!inBounds(x, y))
 				return false;
 
-			if (checkAdjcells(x, y, ocean, horizontal))
+			if (checkAdjcells(x, y, ocean, hori))
 				return false;
 
-			if (horizontal)
-				++y; 
+			if (hori)
+				++y;
 			else
 				++x;
 
@@ -103,21 +104,22 @@ abstract public class Ship {
 		return true;
 	}
 
-	private boolean checkAdjBehindFront(int row, int column, Ocean ocean,boolean horizontal) {
+	private boolean checkAdjBehindFront(int row, int column, Ocean ocean,
+			boolean hori) {
 
 		int x = row, y = column;
 		for (int i = 0; i < 2; i++) {
 
-			if (horizontal) 
+			if (hori)
 				y = (i == 0) ? y -= 1 : y + this.getLength() + 1;
 
-			else 
+			else
 				x = (i == 0) ? x -= 1 : x + this.getLength() + 1;
 
 			if (!inBounds(x, y))
 				return false;
 
-			if (checkAdjcells(x, y, ocean, horizontal))
+			if (checkAdjcells(x, y, ocean, hori))
 				return false;
 		}
 		return true;
@@ -125,13 +127,13 @@ abstract public class Ship {
 	}
 
 	private boolean checkAdjcells(int row, int column, Ocean ocean,
-			boolean horizontal) {
+			boolean hori) {
 		int x = row, y = column;
 
 		if (ocean.isOccupied(x, y))
 			return true;
 
-		if (horizontal) {
+		if (hori) {
 			int xminus = (x == 0) ? 0 : x - 1;
 			int xplus = (x == 9) ? 9 : x + 1;
 
@@ -155,22 +157,22 @@ abstract public class Ship {
 			return false;
 		return true;
 	}
-	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+
+	public void placeShipAt(int row, int column, boolean hori, Ocean ocean) {
 
 		setBowRow(row);
 		setBowColumn(column);
-		setHorizontal(horizontal);
+		setHorizontal(hori);
 
-
-		ocean.getShipArray()[row][column] = this;
+		ocean.getShipArray()[this.getBowRow()][this.getBowColumn()] = this;
 		for (int i = 0; i < this.length; i++) {
-			if (!horizontal) 
-				ocean.getShipArray()[bowRow + i][bowColumn] = this;
+			if (!this.isHorizontal())
+				ocean.getShipArray()[this.getBowRow() + i][this.getBowColumn()] = this;
 
-			if (horizontal) 
-				ocean.getShipArray()[bowRow][bowColumn + i] = this;
+			if (this.isHorizontal())
+				ocean.getShipArray()[this.getBowRow()][bowColumn + i] = this;
 
 		}
 	}
-	
+
 }

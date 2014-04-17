@@ -27,24 +27,13 @@ public class GameEngine extends Observable {
 	 * Start a new game
 	 */
 	public void start() {
-			int shipcount = 0;
+			
 			this.ocean.placeAllShipsRandomly();
-			
-			
-		//put in method put shipcount in unit test	
-			for (int row = 0; row < 10; row++) {
-				for (int col = 0; col < 10; col++) {
-					if (ocean.getShipArray()[row][col]
-							.getShipType() != "Empty Sea")
-						shipcount++;//count for ships
-					}
-				}
-			
-			if(shipcount != 27) //check to make sure all ships are placed
-				new BattleshipGame().run();//if not reinitialise grid
+			if(!this.ocean.isCorrectShipCount())
+				new BattleshipGame().run();
 			
 			else{
-				System.out.println(ocean.toString());
+				
 				this.emitMessage("Welcome. Enter 'quit' at any time to exit\n");
 				this.emitMessage("<Ocean display>\n");
 				this.emitMessage("Fire shot\n");
