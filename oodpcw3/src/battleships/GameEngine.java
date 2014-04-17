@@ -44,9 +44,8 @@ public class GameEngine extends Observable {
 				new BattleshipGame().run();//if not reinitialise grid
 			
 			else{
-				System.out.println(ocean.toString());
 				this.emitMessage("Welcome. Enter 'quit' at any time to exit\n");
-				this.emitMessage("<Ocean display>\n");
+				this.emitMessage(ocean.toString());
 				this.emitMessage("Fire shot\n");
 				this.emitMessage("Row: ");
 			
@@ -75,7 +74,7 @@ public class GameEngine extends Observable {
 			catch(Exception ex) {
 				System.err.println(ex.toString());
 			}
-			this.emitMessage("<Ocean display>\n");
+			this.emitMessage(ocean.toString());
 			if(this.ocean.isGameOver()) {
 				this.emitMessage("Play again? Y/N ");
 			}
