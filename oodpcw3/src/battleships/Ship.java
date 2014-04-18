@@ -4,10 +4,10 @@ abstract public class Ship {
 
 	protected int length;
 	protected boolean[] hit;
-	//private boolean sunk = false;
 	private int bowRow;
 	private int bowColumn;
 	private boolean horizontal = true;
+	private boolean emp = false;
 
 	// Getters and setters
 
@@ -34,7 +34,21 @@ abstract public class Ship {
 	public void setHorizontal(boolean horizontal) {
 		this.horizontal = horizontal;
 	}
-	
+
+	public boolean[] getHit() {
+		return this.hit;
+	}
+
+	public void setMiss() {
+
+		this.emp = true;
+	}
+
+	public boolean getMiss() {
+
+		return this.emp;
+	}
+
 	// to be overridden in subclasses
 	abstract public int getLength();
 
@@ -43,36 +57,34 @@ abstract public class Ship {
 	/**
 	 * Marks the hit array if the ship has been shot
 	 */
-	
+
 	public boolean shootAt(int x, int y) {
-		for (int i = 0; i < this.getLength(); i++) {
-			System.out.println(x+" "+y+" "+hit[i]);
-			if (this.bowRow == x && this.bowColumn == y ) {
-				
-				if(this.isSunk())
-					return false;
-				else{
-				    this.hit[i] = true;
-				    return true;
-				}
+
+		if ((!this.toString().equals(".")) && (!this.isSunk())) {
+
+			if (this.isHorizontal()) {
+				hit[y - bowColumn] = true;
+				return true;
+			} else {
+				hit[x - bowRow] = true;
+				return true;
 			}
-			if (this.isHorizontal())
-				++y;
-			else
-				++x;
+		} else {
+
+			//hit[0] = true;
+			return false;
 		}
-		return false;
 	}
 
 	/**
 	 * Returns true if ship is sunk
 	 */
 	public boolean isSunk() {
-		for (int i = 0; i < this.hit.length; i++) {
-			if (hit[i] == false)
+		for (int i = 0; i < this.getLength(); i++) {
+			if (this.hit[i] == false)
 				return false;
 		}
-	   return true;
+		return true;
 	}
 
 	public boolean okToPlaceShipAt(int row, int column, boolean hori,
@@ -82,8 +94,7 @@ abstract public class Ship {
 				row, column, ocean, hori))));
 	}
 
-	private boolean checkAdjsides(int row, int column, Ocean ocean,
-			boolean hori) {
+	private boolean checkAdjsides(int row, int column, Ocean ocean, boolean hori) {
 
 		int x = row, y = column;
 
@@ -126,8 +137,7 @@ abstract public class Ship {
 
 	}
 
-	private boolean checkAdjcells(int row, int column, Ocean ocean,
-			boolean hori) {
+	private boolean checkAdjcells(int row, int column, Ocean ocean, boolean hori) {
 		int x = row, y = column;
 
 		if (ocean.isOccupied(x, y))
@@ -175,4 +185,12 @@ abstract public class Ship {
 		}
 	}
 
+	@Override
+	public String toString() {
+		if (this.isSunk())
+			return "x";
+		else
+			return "S";
+
+	}
 }

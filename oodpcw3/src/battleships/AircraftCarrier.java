@@ -16,12 +16,5 @@ public class AircraftCarrier extends Ship {
 	public int getLength(){
 		return length;
 	}
-	@Override
-	public String toString() {
-		if (this.isSunk())
-		   return "x";
-		else
-		   return "S";
-	}
-
+	
 }

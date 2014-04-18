@@ -28,14 +28,14 @@ public class Ocean {
 		}
 
 		initFleet();
-
+		this.placeAllShipsRandomly();
+	
 	}
 
 	private void initFleet() {
-		
 
 		// fleet array used to order the placement of ships from big to small
-		fleet[0] = shipFactory.createShip("aircraftCarrier"); 
+		fleet[0] = shipFactory.createShip("aircraftCarrier");
 		fleet[1] = shipFactory.createShip("battleship");
 		fleet[2] = shipFactory.createShip("battleship");
 		fleet[3] = shipFactory.createShip("submarine");
@@ -53,7 +53,7 @@ public class Ocean {
 		int x = 0, y = 0;
 		boolean placed;
 		boolean dir = true;
-		
+
 		for (Ship s : fleet) {
 
 			placed = false;
@@ -73,22 +73,23 @@ public class Ocean {
 				}
 			}
 		}
-		
+
 	}
-	public boolean isCorrectShipCount(){
-		int shipcount=0;
+
+	public boolean isCorrectShipCount() {
+		int shipcount = 0;
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
 				if (this.getShipArray()[row][col].getShipType() != "Empty Sea")
-					shipcount++;//count for ships
-				}
+					shipcount++;// count for ships
 			}
-		
-		if(shipcount != TOTAL_FLEET_SPACES) 
+		}
+
+		if (shipcount != TOTAL_FLEET_SPACES)
 			return false;
 		return true;
-		}
-	
+	}
+
 	public int getHitCount() {
 		return hitCount;
 	}
@@ -123,17 +124,32 @@ public class Ocean {
 
 	public boolean shootAt(int row, int column) {
 
-		if (isOccupied(row, column)) {
+		Ship s = this.getShipArray()[row][column];
+		++shotsFired;
+
+		if (!this.isOccupied(row, column)) {
+
+			if (s.getShipType() == "Empty Sea")
+				((EmptySea) s).setMiss();
+			return false;
+		}
+
+		else if (s.isSunk())
+			return false;
+
+		else {
+			s.shootAt(row, column);
 			++hitCount;
-			++shotsFired;
+
+			if (s.isSunk() == true)
+				++shipsSunk;
+
 			return true;
 		}
-		++shotsFired;
-		return false;
 	}
 
-	public String toString() { 
-		
+	public String toString() {
+
 		StringBuilder buff = new StringBuilder();
 		buff.append(" ");
 		for (int i = 0; i < ships[0].length; i++) {
@@ -142,16 +158,47 @@ public class Ocean {
 		}
 		buff.append("\n");
 
-		for (int i = 0; i < ships.length; i++) {
+		for (int i = 0; i < OCEAN_SIZE; i++) {
 			buff.append(i);
 			for (int j = 0; j < ships[0].length; j++) {
 				buff.append(" ");
-				buff.append(ships[i][j]);
+				Ship s = ships[i][j];
+				buff.append(this.setShipCellState(s, i, j));
 			}
 			buff.append("\n");
 		}
 		return buff.toString();
 	}
-	
-	
+
+	private String setShipCellState(Ship ship, int i, int j) {
+
+		String shipCell = ".";
+
+		if (ship.getShipType() == "Empty Sea") {
+			if (((EmptySea) ship).getMiss())
+				shipCell = "-";
+
+			else
+				shipCell = ".";
+		} else {
+
+			if (ship.isHorizontal()) {
+				boolean[] hit = ship.getHit();
+				if (hit[j - ship.getBowColumn()])
+					shipCell = "s";
+			}
+			if (!ship.isHorizontal()) {
+				boolean[] hit = ship.getHit();
+				if (hit[i - ship.getBowRow()])
+					shipCell = "s";
+			}
+
+			if (ship.isSunk())
+				shipCell = "x";
+
+		}
+
+		return shipCell;
+	}
+
 }

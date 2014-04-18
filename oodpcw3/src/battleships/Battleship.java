@@ -24,11 +24,5 @@ public class Battleship extends Ship {
 		return length;
 	}
 	
-	@Override
-	public String toString() {
-		if (this.isSunk())
-		   return "x";
-		else
-		   return "S";
-	}
 }
+
