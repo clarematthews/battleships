@@ -2,6 +2,7 @@ package battleships;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -121,6 +122,59 @@ public class GameEngineTest implements Observer {
 		assertEquals(expectedQuitCount,quitCounter);
 		
 	}
+	
+//	@Test
+//	public void testRun() {
+//		
+//		GameEngine engine = new GameEngine();
+//		
+//		Ocean mockOcean = mock(Ocean.class);
+//		engine.setOcean(mockOcean);
+//		game.setEngine(engine);
+//		
+//		when(mockOcean.toString()).thenReturn("ocean");
+//		when(mockOcean.shootAt(1, 2)).thenReturn(false);
+//		when(mockOcean.shootAt(4, 1)).thenReturn(true);
+//		when(mockOcean.isGameOver()).thenReturn(false).thenReturn(true);
+//		when(mockOcean.getHitCount()).thenReturn(5);
+//		when(mockOcean.getShotsFired()).thenReturn(8);
+//		
+//		String expectedString = "Welcome. Enter 'quit' at any time to exit\n" + "ocean" + "Fire shot\n" + "Row: ";
+//		game.run();
+//		assertEquals(expectedString, output.toString());
+		
+//		setInput("10");
+//		expectedString = "Invalid input. Enter 0 - 9: ";
+//		assertEquals(expectedString, output.toString());
+//		
+//		setInput("1");
+//		expectedString = "Column: ";
+//		assertEquals(expectedString, output.toString());
+//		
+//		setInput("2");
+//		expectedString = "miss\n";
+//		assertEquals(expectedString, output.toString());
+//
+//		setInput("4");
+//		setInput("1");
+//		expectedString = "hit\n";
+//		assertEquals(expectedString, output.toString());
+//		
+//		expectedString = "Congratulations, you sank the fleet! \n You had 5 hits from 8 shots." + "Play again? Y/N ";
+//		assertEquals(expectedString, output.toString());
+//		
+//		setInput("N");
+//		expectedString = "Goodbye!";
+//		assertEquals(expectedString, output.toString());
+		
+//	}
+	
+	private void setInput(String input) {
+		ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+	}
+	
+
 
 	@Override
 	public void update(Observable o, Object arg) {

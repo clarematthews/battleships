@@ -2,9 +2,12 @@ package battleships;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Observable;
+import java.util.Scanner;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -13,53 +16,41 @@ import static org.mockito.Mockito.*;
 public class BattleshipGameTest {
 	
 	BattleshipGame game;
+	ByteArrayOutputStream output;
 	
 	@Before
 	public void setUp() {
 		game = new BattleshipGame();
+		output = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(output));
+	}
+	
+	@After
+	public void tearDown() {
+		System.setOut(null);
 	}
 	
 
 	@Test
 	public void testUpdate() {
 		
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(output));
-		
 		GameEngine engine = mock(GameEngine.class);
 		game.setEngine(engine);	
 		
 		Observable o = new Observable();
-		GameEvent event = mock(GameEvent.class);
-		when(event.getData()).thenReturn("The data");
-		when(event.getType()).thenReturn("msg").thenReturn("quit");
 		
-		game.update(o, event);
+		GameEvent mockEvent = mock(GameEvent.class);
+		when(mockEvent.getData()).thenReturn("The data");
+		when(mockEvent.getType()).thenReturn("msg").thenReturn("quit");
+		
+		game.update(o, mockEvent);
 		assertEquals("The data", output.toString());
 		
-		game.update(o, event);
+		game.update(o, mockEvent);
 		game.run();
 		verify(engine, times(0)).setFireCoordinate(anyInt());
 		verify(engine, times(0)).setStringCommand(anyString());
 		
-		System.setOut(null);
 	}
-	
-//	@Test
-//	public void testRun() {
-//		GameEngine engine = mock(GameEngine.class);
-//		
-//		game.setEngine(engine);	
-//		
-//		ByteArrayInputStream in = new ByteArrayInputStream("quit".getBytes());
-//		System.setIn(in);
-//		
-//		game.run();
-//		
-//		verify(engine, times(1)).setFireCoordinate(anyInt());
-//		verify(engine, times(1)).setStringCommand(anyString());
-//	}
-	
-	
-
+		
 }
