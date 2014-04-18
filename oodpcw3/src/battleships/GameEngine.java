@@ -27,7 +27,7 @@ public class GameEngine extends Observable {
 	 * Start a new game
 	 */
 	public void start() {
-				this.ocean.placeAllShipsRandomly();
+				
 				if(!this.ocean.isCorrectShipCount()) 
 					new BattleshipGame().run();
 			
@@ -100,7 +100,7 @@ public class GameEngine extends Observable {
 	 * @param col the column coordinate to shoot at
 	 */
 	private void fireShot(int row, int col) {
-		boolean hit = this.ocean.shootAt(row, col);				
+		boolean hit = this.ocean.shootAt(row, col);
 		this.emitMessage(hit ? "hit\n" : "miss\n");
 		
 		if (hit && this.ocean.getShipArray()[row][col].isSunk()) {
