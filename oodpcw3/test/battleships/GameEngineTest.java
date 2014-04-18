@@ -1,8 +1,8 @@
 package battleships;
 
 import static org.junit.Assert.*;
-
-import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,168 +17,98 @@ public class GameEngineTest implements Observer {
 	int quitCounter;
 	int msgCounter;
 	int hitCounter;
+	Ocean mockOcean;
+	List<String> expectedStrings;
+	List<String> actualStrings;
 
 	@Before
 	public void setUp() {
-		engine = new GameEngine();
+		mockOcean = mock(Ocean.class);
+		when(mockOcean.isCorrectShipCount()).thenReturn(true);
+		when(mockOcean.toString()).thenReturn("ocean");
+		
+		engine = new GameEngine(mockOcean);
 		engine.addObserver(this);
+		expectedStrings = new ArrayList<>();
+		actualStrings = new ArrayList<>();
+		
 		quitCounter = 0;
 		msgCounter = 0;
 		hitCounter = 0;
 	}
 	
 	@Test
-	public void testSetCoordinates() {
-		int expectedMsgCount = 1;
+	public void testStartUp() {
+		expectedStrings.add(GameEngine.WELCOME);
+		expectedStrings.add("ocean");
+		expectedStrings.add(GameEngine.FIRE);
+		expectedStrings.add(GameEngine.ROW);
+		engine.start();
 		
-		engine.setFireCoordinate(3);
-		assertEquals(expectedMsgCount, msgCounter);
+		assertEquals(expectedStrings,actualStrings);
 		
-		Ocean mockOcean = mock(Ocean.class);
-		engine.setOcean(mockOcean);
-		when(mockOcean.isGameOver()).thenReturn(false).thenReturn(true);
-		
-		expectedMsgCount = 4;
-		engine.setFireCoordinate(5);
-		assertEquals(expectedMsgCount, msgCounter);
-		
-		expectedMsgCount = 5;
-		engine.setFireCoordinate(1);
-		assertEquals(expectedMsgCount, msgCounter);
-		
-		expectedMsgCount = 9;
-		engine.setFireCoordinate(1);
-		assertEquals(expectedMsgCount, msgCounter);
-		
-		expectedMsgCount = 10;
-		engine.setFireCoordinate(10);
-		assertEquals(expectedMsgCount, msgCounter);
-		
-		expectedMsgCount = 11;
-		engine.setFireCoordinate(-2);
-		assertEquals(expectedMsgCount, msgCounter);
-
 	}
 	
 	@Test
-	public void testFireShot() {
-		int expectedMsgCount = 4;
-		int expectedHitCount = 0;
+	public void testFireShots() {
+		when(mockOcean.shootAt(anyInt(), anyInt())).thenReturn(false).thenReturn(true);
+		when(mockOcean.isGameOver()).thenReturn(false).thenReturn(true);
+		when(mockOcean.getShotsFired()).thenReturn(4);
+		when(mockOcean.getHitCount()).thenReturn(2);
 		
-		Ocean mockOcean = mock(Ocean.class);
-		engine.setOcean(mockOcean);
+		engine.setFireCoordinate(3);
+		expectedStrings.add(GameEngine.COLUMN);
 		
-		when(mockOcean.isGameOver()).thenReturn(false);
-		when(mockOcean.shootAt(1, 1)).thenReturn(false);
-		when(mockOcean.shootAt(1, 2)).thenReturn(true);
+		engine.setFireCoordinate(5);
+		expectedStrings.add(GameEngine.MISS);
+		expectedStrings.add("ocean");
+		expectedStrings.add(GameEngine.ROW);
 		
 		engine.setFireCoordinate(1);
-		engine.setFireCoordinate(1);
-		assertEquals(expectedMsgCount,msgCounter);
-		assertEquals(expectedHitCount,hitCounter);
+		expectedStrings.add(GameEngine.COLUMN);
 		
-		expectedMsgCount = 8;
-		expectedHitCount = 1;
 		engine.setFireCoordinate(1);
-		engine.setFireCoordinate(2);
-		assertEquals(expectedMsgCount,msgCounter);
+		expectedStrings.add(GameEngine.HIT);
+		expectedStrings.add("ocean");
+		expectedStrings.add(GameEngine.CONGRATULATIONS);
+		expectedStrings.add(String.format(GameEngine.FINAL_SCORE, 4, 2));
+		expectedStrings.add(GameEngine.PLAY_AGAIN);
+		
+		engine.setFireCoordinate(10);
+		expectedStrings.add(GameEngine.INVALID);
+		
+		engine.setFireCoordinate(-2);
+		expectedStrings.add(GameEngine.INVALID);
+		
+		assertEquals(expectedStrings, actualStrings);
+
 	}
 	
 	@Test
 	public void testSetString() {
-		int expectedMsgCount = 4;
-		int expectedQuitCount = 1;
-		
-		Ocean mockOcean = mock(Ocean.class);
-		engine.setOcean(mockOcean);
-		
 		engine.setStringCommand("Y");
-		assertEquals(expectedMsgCount,msgCounter);
+		expectedStrings.add(GameEngine.WELCOME);
+		expectedStrings.add("ocean");
+		expectedStrings.add(GameEngine.FIRE);
+		expectedStrings.add(GameEngine.ROW);
 		
 		engine.setStringCommand("N");
-		assertEquals(expectedQuitCount,quitCounter);
+		expectedStrings.add(GameEngine.QUIT);
 		
-		expectedQuitCount = 2;
 		engine.setStringCommand("quit");
-		assertEquals(expectedQuitCount,quitCounter);
+		expectedStrings.add(GameEngine.QUIT);
 		
-		expectedMsgCount = 5;
 		engine.setStringCommand("string");
-		assertEquals(expectedMsgCount,msgCounter);
-		assertEquals(expectedQuitCount,quitCounter);
+		expectedStrings.add(GameEngine.INVALID);
 		
-		verify(mockOcean, times(1)).placeAllShipsRandomly();
-	}
-
-	@Test
-	public void testEmit() {	
-		int expectedMsgCount = 1;
-		int expectedQuitCount = 1;
-		
-		engine.emitMessage("hit \n");
-		engine.emitQuit();
-		
-		assertEquals(expectedMsgCount,msgCounter);
-		assertEquals(expectedQuitCount,quitCounter);
-		
-	}
+		assertEquals(expectedStrings, actualStrings);
 	
-//	@Test
-//	public void testRun() {
-//		
-//		GameEngine engine = new GameEngine();
-//		
-//		Ocean mockOcean = mock(Ocean.class);
-//		engine.setOcean(mockOcean);
-//		game.setEngine(engine);
-//		
-//		when(mockOcean.toString()).thenReturn("ocean");
-//		when(mockOcean.shootAt(1, 2)).thenReturn(false);
-//		when(mockOcean.shootAt(4, 1)).thenReturn(true);
-//		when(mockOcean.isGameOver()).thenReturn(false).thenReturn(true);
-//		when(mockOcean.getHitCount()).thenReturn(5);
-//		when(mockOcean.getShotsFired()).thenReturn(8);
-//		
-//		String expectedString = "Welcome. Enter 'quit' at any time to exit\n" + "ocean" + "Fire shot\n" + "Row: ";
-//		game.run();
-//		assertEquals(expectedString, output.toString());
-		
-//		setInput("10");
-//		expectedString = "Invalid input. Enter 0 - 9: ";
-//		assertEquals(expectedString, output.toString());
-//		
-//		setInput("1");
-//		expectedString = "Column: ";
-//		assertEquals(expectedString, output.toString());
-//		
-//		setInput("2");
-//		expectedString = "miss\n";
-//		assertEquals(expectedString, output.toString());
-//
-//		setInput("4");
-//		setInput("1");
-//		expectedString = "hit\n";
-//		assertEquals(expectedString, output.toString());
-//		
-//		expectedString = "Congratulations, you sank the fleet! \n You had 5 hits from 8 shots." + "Play again? Y/N ";
-//		assertEquals(expectedString, output.toString());
-//		
-//		setInput("N");
-//		expectedString = "Goodbye!";
-//		assertEquals(expectedString, output.toString());
-		
-//	}
-	
-	private void setInput(String input) {
-		ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-		System.setIn(in);
 	}
-	
-
 
 	@Override
 	public void update(Observable o, Object arg) {
 		GameEvent event = (GameEvent) arg;
+		actualStrings.add(event.getData());
 		if (event.getType() == "quit") {
 			assertEquals(event.getData(),"Goodbye!");
 			quitCounter++;

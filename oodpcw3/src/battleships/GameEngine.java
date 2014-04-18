@@ -13,13 +13,25 @@ public class GameEngine extends Observable {
 	private boolean waitingForRow;
 	private int row;
 	
+	public static final String WELCOME = "Welcome. Enter 'quit' at any time to exit\n";
+	public static final String CONGRATULATIONS = "Congratulations, you sank the fleet!\n";
+	public static final String FINAL_SCORE =   "You fired %d shots and made %d hits.";
+	public static final String PLAY_AGAIN = "Play again? Y/N ";
+	public static final String QUIT = "Goodbye!";
+	public static final String FIRE = "Fire shot\n";
+	public static final String ROW = "Row: ";
+	public static final String COLUMN = "Column: ";
+	public static final String INVALID = "Invalid input. Try again: ";
+	public static final String HIT = "hit\n";
+	public static final String MISS = "miss\n";
+	public static final String SANK = "You just sank a %s\n";
+	
 	public GameEngine() {
-		waitingForRow = true;
-		Ocean ocean = new Ocean();
-		this.setOcean(ocean);
+		this(new Ocean());
 	}
 	
-	public void setOcean(Ocean ocean) {
+	public GameEngine(Ocean ocean) {
+		waitingForRow = true;
 		this.ocean = ocean;
 	}
 	
@@ -27,17 +39,16 @@ public class GameEngine extends Observable {
 	 * Start a new game
 	 */
 	public void start() {
-				this.ocean.placeAllShipsRandomly();
-				if(!this.ocean.isCorrectShipCount()) 
-					new BattleshipGame().run();
+				ocean.placeAllShipsRandomly();
+				while(!ocean.isCorrectShipCount()) {
+					ocean.placeAllShipsRandomly();
+				}
+
+				emitMessage(WELCOME);
+				emitMessage(ocean.toString());
+				emitMessage(FIRE);
+				emitMessage(ROW);
 			
-				else{
-					this.emitMessage("Welcome. Enter 'quit' at any time to exit\n");
-					this.emitMessage(ocean.toString());
-					this.emitMessage("Fire shot\n");
-				    this.emitMessage("Row: ");
-			
-			}
 	}
 	
 	/**
@@ -46,30 +57,31 @@ public class GameEngine extends Observable {
 	 */
 	public void setFireCoordinate(double input) {		
 		if (input < 0 || input > 9) {
-			this.emitMessage("Invalid input. Enter 0 - 9: ");
+			emitMessage(INVALID);
 			return;
 		}
 		
 		if (waitingForRow) {
 			row = (int)input;
 			waitingForRow = false;
-			this.emitMessage("Column: ");
+			emitMessage(COLUMN);
 		}
 		else {
 			try {
-				this.fireShot(row, (int) input);
+				fireShot(row, (int) input);
 			}
 			catch(Exception ex) {
 				System.err.println(ex.toString());
 			}
-			this.emitMessage(ocean.toString());
-			if(this.ocean.isGameOver()) {
-				this.emitMessage("Congratulations, you sank the fleet! \n You had " + ocean.getHitCount() + " hits from " + ocean.getShotsFired() + " shots.");
-				this.emitMessage("Play again? Y/N ");
+			emitMessage(ocean.toString());
+			if(ocean.isGameOver()) {
+				emitMessage(CONGRATULATIONS);
+				emitMessage(String.format(FINAL_SCORE, ocean.getShotsFired(), ocean.getHitCount()));
+				emitMessage(PLAY_AGAIN);
 			}
 			else {
 				waitingForRow = true;
-				this.emitMessage("Row: ");
+				emitMessage(ROW);
 			}
 		}	
 	}
@@ -81,16 +93,16 @@ public class GameEngine extends Observable {
 	public void setStringCommand(String input) {
 		switch(input) {
 		case "quit":
-			this.emitQuit();
+			emitQuit();
 			break;
 		case "Y":
-			this.start();
+			start();
 			break;
 		case "N":
-			this.emitQuit();
+			emitQuit();
 			break;
 		default:
-			this.emitMessage("Invalid input. Try again: ");
+			emitMessage(INVALID);
 			break;
 		}
 	}
@@ -101,11 +113,11 @@ public class GameEngine extends Observable {
 	 * @param col the column coordinate to shoot at
 	 */
 	private void fireShot(int row, int col) {
-		boolean hit = this.ocean.shootAt(row, col);				
-		this.emitMessage(hit ? "hit\n" : "miss\n");
+		boolean hit = ocean.shootAt(row, col);				
+		emitMessage(hit ? HIT : MISS);
 		
-		if (hit && this.ocean.getShipArray()[row][col].isSunk()) {
-			this.emitMessage("You just sank a " + this.ocean.getShipArray()[row][col].getShipType() + "\n");
+		if (hit && ocean.getShipArray()[row][col].isSunk()) {
+			emitMessage(String.format(SANK, ocean.getShipArray()[row][col].getShipType()));
 		}
 	}
 
@@ -117,7 +129,7 @@ public class GameEngine extends Observable {
 		GameEvent event = new GameEvent();
 		event.setType("msg");
 		event.setData(message);
-		this.emit(event);
+		emit(event);
 	}
 	
 	/**
@@ -126,8 +138,8 @@ public class GameEngine extends Observable {
 	public void emitQuit() {
 		GameEvent event = new GameEvent();
 		event.setType("quit");
-		event.setData("Goodbye!");
-		this.emit(event);
+		event.setData(QUIT);
+		emit(event);
 	}
 	
 	/**
@@ -135,8 +147,8 @@ public class GameEngine extends Observable {
 	 * @param event the GameEvent sent to an observer
 	 */
 	private void emit(GameEvent event) {
-		this.setChanged();
-		this.notifyObservers(event);
+		setChanged();
+		notifyObservers(event);
 	}
 	
 	
