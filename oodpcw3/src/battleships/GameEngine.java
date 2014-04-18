@@ -12,10 +12,11 @@ public class GameEngine extends Observable {
 	private Ocean ocean;
 	private boolean waitingForRow;
 	private int row;
+	private int oceanSize;
 	
 	public static final String WELCOME = "Welcome. Enter 'quit' at any time to exit\n";
 	public static final String CONGRATULATIONS = "Congratulations, you sank the fleet!\n";
-	public static final String FINAL_SCORE =   "You fired %d shots and made %d hits.";
+	public static final String FINAL_SCORE = "You fired %d shots and made %d hits. ";
 	public static final String PLAY_AGAIN = "Play again? Y/N ";
 	public static final String QUIT = "Goodbye!";
 	public static final String FIRE = "Fire shot\n";
@@ -33,17 +34,13 @@ public class GameEngine extends Observable {
 	public GameEngine(Ocean ocean) {
 		waitingForRow = true;
 		this.ocean = ocean;
+		oceanSize = ocean.getOceanSize();
 	}
 	
 	/**
 	 * Start a new game
 	 */
 	public void start() {
-				ocean.placeAllShipsRandomly();
-				while(!ocean.isCorrectShipCount()) {
-					ocean.placeAllShipsRandomly();
-				}
-
 				emitMessage(WELCOME);
 				emitMessage(ocean.toString());
 				emitMessage(FIRE);
@@ -56,7 +53,7 @@ public class GameEngine extends Observable {
 	 * @param input the coordinate fired at
 	 */
 	public void setFireCoordinate(double input) {		
-		if (input < 0 || input > 9) {
+		if (input < 0 || input >= oceanSize) {
 			emitMessage(INVALID);
 			return;
 		}
@@ -96,6 +93,8 @@ public class GameEngine extends Observable {
 			emitQuit();
 			break;
 		case "Y":
+			ocean = new Ocean();
+			waitingForRow = true;
 			start();
 			break;
 		case "N":

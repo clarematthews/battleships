@@ -26,15 +26,13 @@ public class GameEngineTest implements Observer {
 		mockOcean = mock(Ocean.class);
 		when(mockOcean.isCorrectShipCount()).thenReturn(true);
 		when(mockOcean.toString()).thenReturn("ocean");
+		when(mockOcean.getOceanSize()).thenReturn(10);
 		
 		engine = new GameEngine(mockOcean);
 		engine.addObserver(this);
 		expectedStrings = new ArrayList<>();
 		actualStrings = new ArrayList<>();
 		
-		quitCounter = 0;
-		msgCounter = 0;
-		hitCounter = 0;
 	}
 	
 	@Test
@@ -101,26 +99,34 @@ public class GameEngineTest implements Observer {
 		engine.setStringCommand("string");
 		expectedStrings.add(GameEngine.INVALID);
 		
+		expectedStrings.remove(1);
+		actualStrings.remove(1);
+		
 		assertEquals(expectedStrings, actualStrings);
 	
+	}
+	
+	@Test
+	public void testNewGame() {
+		engine.setStringCommand("Y");
+		expectedStrings.add(GameEngine.WELCOME);
+		expectedStrings.add("ocean");
+		expectedStrings.add(GameEngine.FIRE);
+		expectedStrings.add(GameEngine.ROW);
+		
+		engine.setFireCoordinate(3);
+		expectedStrings.add(GameEngine.COLUMN);
+
+		expectedStrings.remove(1);
+		actualStrings.remove(1);
+		
+		assertEquals(expectedStrings, actualStrings);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		GameEvent event = (GameEvent) arg;
 		actualStrings.add(event.getData());
-		if (event.getType() == "quit") {
-			assertEquals(event.getData(),"Goodbye!");
-			quitCounter++;
-		}
-		else if (event.getData() == "hit \n") {
-			assertEquals(event.getType(), "msg");
-			msgCounter++;
-			hitCounter++;
-		}
-		else if (event.getType() == "msg") {
-			msgCounter++;
-		}
 	}
 
 }
