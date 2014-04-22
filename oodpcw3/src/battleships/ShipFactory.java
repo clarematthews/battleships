@@ -1,36 +1,24 @@
 package battleships;
 
-import battleships.AircraftCarrier;
+import java.util.HashMap;
 import battleships.Ship;
-
 
 public class ShipFactory {
 
 	/**
 	 * create ship 
-	 */
-	public Ship createShip(String string) {
-		
-		if(string.equals("aircraftCarrier")){
-			return new AircraftCarrier();
-		}		
-		if(string.equals("battleship")){
-			return new Battleship();
-		}
-		if(string.equals("submarine")){
-			return new Submarine();
-		}
-		if(string.equals("destroyer")){
-			return new Destroyer();
-		}
-		if(string.equals("patrolboat")){
-			return new PatrolBoat();
-		}		
-		if(string.equals("emptySea")){
-			return new EmptySea();
-		}
-		return null;
-		
+	 */	
+	private static HashMap<String, Class<?>> m_RegisteredShips = new HashMap<String, Class<?>>();
+
+    public void registerShip (String id, Class<?> shipclass)
+    {
+        m_RegisteredShips.put(id, shipclass);
+    }
+
+	public Ship createShip(String id) throws InstantiationException, IllegalAccessException 
+	{
+		Class<?> shipclass =  m_RegisteredShips.get(id);
+        return (Ship) shipclass.newInstance();
 	}
 
 }

@@ -70,7 +70,7 @@ public class BattleshipGame implements Observer {
 		System.out.print(event.getData());
 
 		if(event.getType() == "quit") {
-			running = false;
+			running = false;	
 		}	
 	}
 }

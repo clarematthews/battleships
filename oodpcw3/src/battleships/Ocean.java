@@ -20,7 +20,13 @@ public class Ocean {
 	Ship[] fleet = new Ship[FLEET_SIZE];
 
 	public Ocean() {
-		// initialise playing Grid
+		do {
+			initGrid();
+		} while (!isCorrectShipCount());
+		
+	}
+	
+	public void initGrid() {
 		for (int row = 0; row < OCEAN_SIZE; row++) {
 			for (int col = 0; col < OCEAN_SIZE; col++) {
 				ships[row][col] = shipFactory.createShip("emptySea");
@@ -29,7 +35,7 @@ public class Ocean {
 
 		initFleet();
 		this.placeAllShipsRandomly();
-	
+
 	}
 
 	private void initFleet() {
@@ -88,6 +94,10 @@ public class Ocean {
 		if (shipcount != TOTAL_FLEET_SPACES)
 			return false;
 		return true;
+	}
+	
+	public int getOceanSize() {
+		return OCEAN_SIZE;
 	}
 
 	public int getHitCount() {
