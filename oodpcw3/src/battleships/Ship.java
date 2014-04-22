@@ -71,7 +71,7 @@ abstract public class Ship {
 			}
 		} else {
 
-			//hit[0] = true;
+			
 			return false;
 		}
 	}

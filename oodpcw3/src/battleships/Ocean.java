@@ -163,14 +163,14 @@ public class Ocean {
 			for (int j = 0; j < ships[0].length; j++) {
 				buff.append(" ");
 				Ship s = ships[i][j];
-				buff.append(this.setShipCellState(s, i, j));
+				buff.append(this.setOceanCellState(s, i, j));
 			}
 			buff.append("\n");
 		}
 		return buff.toString();
 	}
 
-	private String setShipCellState(Ship ship, int i, int j) {
+	private String setOceanCellState(Ship ship, int x, int y) {
 
 		String shipCell = ".";
 
@@ -184,13 +184,13 @@ public class Ocean {
 
 			if (ship.isHorizontal()) {
 				boolean[] hit = ship.getHit();
-				if (hit[j - ship.getBowColumn()])
-					shipCell = "s";
+				if (hit[y - ship.getBowColumn()])
+					shipCell = "S";
 			}
 			if (!ship.isHorizontal()) {
 				boolean[] hit = ship.getHit();
-				if (hit[i - ship.getBowRow()])
-					shipCell = "s";
+				if (hit[x - ship.getBowRow()])
+					shipCell = "S";
 			}
 
 			if (ship.isSunk())
