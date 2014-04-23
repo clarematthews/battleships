@@ -18,13 +18,14 @@ private static ShipFactory shipFactory;
 	}
 
 	@Test
-	public void test() {
+	public void test() throws InstantiationException, IllegalAccessException {
 		
 		String expectedOutput = "Battleship";
 		String returnedOutput = null;
 		Integer expectedLength = 4;
 		Integer returnedLength;
 
+		shipFactory.registerShip("battleship", Battleship.class);
 		Ship battleship = shipFactory.createShip("battleship");	
 		
 		returnedOutput = battleship.getShipType();
