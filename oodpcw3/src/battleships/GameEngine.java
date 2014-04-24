@@ -88,16 +88,17 @@ public class GameEngine extends Observable {
 	 * @param input the user command line input
 	 */
 	public void setStringCommand(String input) {
+		input = input.toLowerCase();
 		switch(input) {
 		case "quit":
 			emitQuit();
 			break;
-		case "Y":
+		case "y":
 			ocean = new Ocean();
 			waitingForRow = true;
 			start();
 			break;
-		case "N":
+		case "n":
 			emitQuit();
 			break;
 		default:
