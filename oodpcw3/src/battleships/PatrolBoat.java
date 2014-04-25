@@ -7,7 +7,7 @@ public class PatrolBoat extends Ship  {
 	 */
 	public PatrolBoat() {
 		this.length = 1;
-		this.hit = new boolean[length];
+		this.hit = new boolean[1];
 	}
 
 	/**

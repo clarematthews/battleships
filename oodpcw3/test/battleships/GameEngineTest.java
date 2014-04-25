@@ -1,6 +1,7 @@
 package battleships;
 
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -83,7 +84,7 @@ public class GameEngineTest implements Observer {
 	}
 	
 	@Test
-	public void testSetString() {
+	public void testSetString()throws ReflectiveOperationException  {
 		engine.setStringCommand("Y");
 		expectedStrings.add(GameEngine.WELCOME);
 		expectedStrings.add("ocean");
@@ -107,7 +108,7 @@ public class GameEngineTest implements Observer {
 	}
 	
 	@Test
-	public void testNewGame() {
+	public void testNewGame() throws ReflectiveOperationException {
 		engine.setStringCommand("Y");
 		expectedStrings.add(GameEngine.WELCOME);
 		expectedStrings.add("ocean");

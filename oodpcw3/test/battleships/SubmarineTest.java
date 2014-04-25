@@ -24,7 +24,7 @@ private static ShipFactory shipFactory;
 		String returnedOutput = null;
 		Integer expectedLength = 3;
 		Integer returnedLength;
-
+		try{
 		Ship submarine = shipFactory.createShip("submarine");	
 		
 		returnedOutput = submarine.getShipType();
@@ -32,6 +32,8 @@ private static ShipFactory shipFactory;
 		
 		assertEquals(expectedOutput, returnedOutput);
 		assertEquals(expectedLength, returnedLength);
+		
+		}catch( ReflectiveOperationException rex ){}
 	}
 
 

@@ -15,10 +15,12 @@ public class ShipFactory {
         m_RegisteredShips.put(id, shipclass);
     }
 
-	public Ship createShip(String id) throws InstantiationException, IllegalAccessException 
-	{
+	public Ship createShip(String id) throws ReflectiveOperationException {
+	
+		
 		Class<?> shipclass =  m_RegisteredShips.get(id);
         return (Ship) shipclass.newInstance();
+		
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Observable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -17,9 +18,11 @@ public class BattleshipGameTest {
 	
 	@Before
 	public void setUp() {
+		try{
 		game = new BattleshipGame();
 		output = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(output));
+		}catch(ReflectiveOperationException rex){}
 	}
 	
 	@After
@@ -29,7 +32,7 @@ public class BattleshipGameTest {
 	
 
 	@Test
-	public void testUpdate() {
+	public void testUpdate() throws ReflectiveOperationException {
 		
 		GameEngine engine = mock(GameEngine.class);
 		game.setEngine(engine);	

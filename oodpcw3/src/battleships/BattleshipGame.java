@@ -13,7 +13,7 @@ import java.util.Observer;
  */
 public class BattleshipGame implements Observer {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ReflectiveOperationException {
 		BattleshipGame game = new BattleshipGame();
 		game.run();
 	}
@@ -21,7 +21,7 @@ public class BattleshipGame implements Observer {
 	private GameEngine engine;
 	private boolean running;
 	
-	public BattleshipGame() {
+	public BattleshipGame() throws ReflectiveOperationException {
 		running = true;
 		GameEngine engine = new GameEngine();
 		this.setEngine(engine);
@@ -35,7 +35,7 @@ public class BattleshipGame implements Observer {
 	/**
 	 * Start game engine, accept user inputs and pass to engine.
 	 */
-	public void run() {
+	public void run() throws ReflectiveOperationException {
 		engine.start();
 		InputStreamReader isr = new InputStreamReader(System.in);
 		StreamTokenizer st = new StreamTokenizer(isr);
@@ -52,7 +52,7 @@ public class BattleshipGame implements Observer {
 				default:
 					break;
 				}
-			} catch (IOException e) {
+			} catch (final ReflectiveOperationException | IOException e) {
 				e.printStackTrace();
 			}
 		}
