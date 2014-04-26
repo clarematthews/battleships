@@ -1,4 +1,5 @@
-package battleships;
+package battleship;
+
 
 public class AircraftCarrier extends Ship {	
 

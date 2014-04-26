@@ -1,7 +1,6 @@
-package battleships;
+package battleship;
 
 import java.util.HashMap;
-import battleships.Ship;
 
 /**
  * @author Raitis

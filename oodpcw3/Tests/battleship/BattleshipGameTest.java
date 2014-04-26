@@ -1,4 +1,4 @@
-package battleships;
+package battleship;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

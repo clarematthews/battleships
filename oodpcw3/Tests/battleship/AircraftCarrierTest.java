@@ -1,12 +1,9 @@
-package battleships;
+package battleship;
 
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import battleships.Ship;
-import battleships.ShipFactory;
 
 public class AircraftCarrierTest {
 
