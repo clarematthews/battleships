@@ -18,14 +18,19 @@ private static ShipFactory shipFactory;
 	}
 
 	@Test
-	public void test() {
+	public void test() throws ReflectiveOperationException {
 		
 		String expectedOutput = "Patrol Boat";
 		String returnedOutput = null;
 		Integer expectedLength = 1;
 		Integer returnedLength;
+
 		
 		try{
+
+
+		shipFactory.registerShip("patrolboat", PatrolBoat.class);
+ 
 		Ship patrolBoat = shipFactory.createShip("patrolboat");	
 		
 		returnedOutput = patrolBoat.getShipType();

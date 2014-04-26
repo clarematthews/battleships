@@ -35,7 +35,7 @@ public class BattleshipGame implements Observer {
 	/**
 	 * Start game engine, accept user inputs and pass to engine.
 	 */
-	public void run() throws ReflectiveOperationException {
+	public void run()  {
 		engine.start();
 		InputStreamReader isr = new InputStreamReader(System.in);
 		StreamTokenizer st = new StreamTokenizer(isr);
@@ -52,7 +52,7 @@ public class BattleshipGame implements Observer {
 				default:
 					break;
 				}
-			} catch (final ReflectiveOperationException | IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
