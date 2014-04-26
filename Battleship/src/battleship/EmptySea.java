@@ -1,11 +1,11 @@
 package battleship;
 
-
+/**
+ * @authors Dorian, Clare, David, Raitis
+ * Class representing the empty sea. 
+ */
 public class EmptySea extends Ship {
 
-	/**
-	 * constructor setting ship length
-	 */
 	public EmptySea() {
 		this.length = 1;
 
@@ -17,26 +17,24 @@ public class EmptySea extends Ship {
 	}
 
 	/**
-	 * Shoot into empty sea
+	 * Shoot into empty sea.
+	 * @param x the row coordinate
+	 * @param y the column coordinate
 	 */
 	@Override
 	public boolean shootAt(int x, int y) {
-
 		return false;
 	}
 
 	/**
-	 * Nothing is sunk
+	 * Nothing is sunk.
+	 * @return false 
 	 */
 	@Override
 	public boolean isSunk() {
 		return false;
 	}
 
-	/**
-	 * return ship type
-	 * 
-	 */
 	@Override
 	public String getShipType() {
 		return "Empty Sea";
@@ -44,7 +42,6 @@ public class EmptySea extends Ship {
 
 	@Override
 	public String toString() {
-
 		return ".";
 	}
 

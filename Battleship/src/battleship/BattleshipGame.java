@@ -7,9 +7,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * This class accepts user input, passes it to the GameEngine class and responds to updates of GameEvents. 
- * @author clare
- *
+ * @author Clare, Dorian, Raitis, David
+ * This class accepts user input, passes it to the GameEngine class and responds to updates of GameEvents.
  */
 public class BattleshipGame implements Observer {
 
@@ -27,6 +26,10 @@ public class BattleshipGame implements Observer {
 		this.setEngine(engine);
 	}
 	
+	/**
+	 * Add as an observer of the GameEngine.
+	 * @param engine the engine to observe
+	 */
 	public void setEngine(GameEngine engine) {
 		this.engine = engine;
 		engine.addObserver(this);
@@ -59,7 +62,7 @@ public class BattleshipGame implements Observer {
 	}
 	
 	/**
-	 * Updates of GameEvents
+	 * Updates of GameEvents.
 	 * @param o the GameEngine observed
 	 * @param arg the GameEvent that occurred
 	 */

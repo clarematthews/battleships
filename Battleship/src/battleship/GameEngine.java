@@ -3,9 +3,8 @@ package battleship;
 import java.util.Observable;
 
 /**
+ * @author Clare, Dorian, Raitis, David
  * This class fires shots at an Ocean and returns results and messages to the BattleshipGame class. 
- * @author Clare Matthews
- *
  */
 public class GameEngine extends Observable {
 
@@ -38,18 +37,17 @@ public class GameEngine extends Observable {
 	}
 	
 	/**
-	 * Start a new game
+	 * Start a new game.
 	 */
 	public void start() {
 				emitMessage(WELCOME);
 				emitMessage(ocean.toString());
 				emitMessage(FIRE);
-				emitMessage(ROW);
-			
+				emitMessage(ROW);	
 	}
 	
 	/**
-	 * Accept row and column coordinates for firing, until game is over
+	 * Accept row and column coordinates for firing, until game is over.
 	 * @param input the coordinate fired at
 	 */
 	public void setFireCoordinate(double input) {		
@@ -84,7 +82,7 @@ public class GameEngine extends Observable {
 	}
 	
 	/**
-	 * Interpret user inputs from the command line to play again or quit
+	 * Interpret user inputs from the command line to play again or quit.
 	 * @param input the user command line input
 	 */
 	public void setStringCommand(String input) {
@@ -108,7 +106,7 @@ public class GameEngine extends Observable {
 	}
 
 	/**
-	 * Fires a shot at the Ocean and responds with hit or miss, and the type of ship if a ship is sunk
+	 * Fires a shot at the Ocean and responds with hit or miss, and the type of ship if a ship is sunk.
 	 * @param row the row coordinate to shoot at
 	 * @param col the column coordinate to shoot at
 	 */
@@ -122,7 +120,7 @@ public class GameEngine extends Observable {
 	}
 
 	/**
-	 * Sends a GameEvent to an observer, with a message
+	 * Sends a GameEvent to an observer, with a message.
 	 * @param message the message to send to an observer
 	 */
 	public void emitMessage(String message) {
@@ -143,14 +141,13 @@ public class GameEngine extends Observable {
 	}
 	
 	/**
-	 * Notifies an observer of a GameEvent
+	 * Notifies an observer of a GameEvent.
 	 * @param event the GameEvent sent to an observer
 	 */
 	private void emit(GameEvent event) {
 		setChanged();
 		notifyObservers(event);
 	}
-	
 	
 }
 

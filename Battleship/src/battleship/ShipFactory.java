@@ -22,16 +22,14 @@ public class ShipFactory {
     }
 
 	/**
-	 * @param id
-	 * @return
+	 * Creates new ships.
+	 * @param id - ship id
+	 * @return new ship
 	 * @throws ReflectiveOperationException
 	 */
 	public Ship createShip(String id) throws ReflectiveOperationException {
-	
-		
 		Class<?> shipclass =  m_RegisteredShips.get(id);
         return (Ship) shipclass.newInstance();
-		
 	}
 
 }

@@ -1,20 +1,16 @@
 package battleship;
 
-
+/**
+ * @authors Dorian, Clare, David, Raitis
+ * Class representing a patrol boat. 
+ */
 public class PatrolBoat extends Ship  {
 
-	/**
-	 * constructor setting ship length
-	 */
 	public PatrolBoat() {
 		this.length = 1;
 		this.hit = new boolean[1];
 	}
 
-	/**
-	 * return ship type
-	 *
-	 */
 	@Override
 	public String getShipType() {
        return "Patrol Boat";

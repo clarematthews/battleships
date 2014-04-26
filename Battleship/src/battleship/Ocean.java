@@ -2,10 +2,9 @@ package battleship;
 
 import java.util.Random;
 
-/**/
 /**
  * @authors Clare,Dorian,Raitis,David
- * 
+ * Ocean is a grid containing a fleet of ships.
  */
 public class Ocean {
 
@@ -30,27 +29,22 @@ public class Ocean {
 		shipFactory.registerShip("destroyer", Destroyer.class);
 		shipFactory.registerShip("submarine", Submarine.class);
 		shipFactory.registerShip("patrolboat", PatrolBoat.class);
-
 	}
 
 	/**
 	 * Constructor creates ocean object by calling initGrid method.
 	 */
 	public Ocean() {
-
 		try {
-
 			initGrid();
 		} catch (ReflectiveOperationException rex) {}
-
 	}
 
 	/**
-	 * initGrid initialises ship array and fills it with emptySea objects. * @throws
-	 * ReflectiveOperationException
+	 * Initialises ship array and fills it with emptySea objects. 
+	 * @throws ReflectiveOperationException
 	 */
 	private void initGrid() throws ReflectiveOperationException {
-
 		for (int row = 0; row < OCEAN_SIZE; row++) {
 			for (int col = 0; col < OCEAN_SIZE; col++) {
 				ships[row][col] = shipFactory.createShip("emptySea");
@@ -62,12 +56,11 @@ public class Ocean {
 	}
 
 	/**
-	 * initfleet creates ships and puts them into the fleet array used to order
-	 * the placement of ships from large to small. * @throws
-	 * ReflectiveOperationException
+	 * Creates ships and puts them into the fleet array used to order
+	 * the placement of ships from large to small. 
+	 * @throws ReflectiveOperationException
 	 */
 	private void initFleet() throws ReflectiveOperationException {
-
 		fleet[0] = shipFactory.createShip("aircraftCarrier");
 		fleet[1] = shipFactory.createShip("battleship");
 		fleet[2] = shipFactory.createShip("battleship");
@@ -79,13 +72,11 @@ public class Ocean {
 		fleet[8] = shipFactory.createShip("patrolboat");
 		fleet[9] = shipFactory.createShip("patrolboat");
 		fleet[10] = shipFactory.createShip("patrolboat");
-
 	}
 
 	/**
 	 * Accessor method to get size of the 2d ships array, rows and columns
 	 * always same number.
-	 * 
 	 * @return size of the 2d ships array
 	 */
 	public int getOceanSize() {
@@ -93,9 +84,8 @@ public class Ocean {
 	}
 
 	/**
-	 * Accessor method to get number of ship cells hit(not emptysea), should be
+	 * Accessor method to get number of ship cells hit (not emptysea), should be
 	 * 27 at the end of game.
-	 * 
 	 * @return number of ship cells hit
 	 */
 	public int getHitCount() {
@@ -105,7 +95,6 @@ public class Ocean {
 	/**
 	 * Accessor method to get the total number of ships sunk, should be 11 at
 	 * the end of the game.
-	 * 
 	 * @return the number of ships sunk
 	 */
 	public int getShipsSunk() {
@@ -115,7 +104,6 @@ public class Ocean {
 	/**
 	 * Accessor method to get the total number of shots fired at the end of the
 	 * game.
-	 * 
 	 * @return the number of shots fired
 	 */
 	public int getShotsFired() {
@@ -124,23 +112,18 @@ public class Ocean {
 
 	/**
 	 * Accessor method to get the 2d ships array.
-	 * 
 	 * @return ships 2d array
 	 */
 	public Ship[][] getShipArray() {
-
 		return ships;
-
 	}
 
 	
 	/**
 	 * Check to see if game is over.
-	 * 
 	 * @return true if ships sunk equals the size of the fleet, false otherwise.
 	 */
 	public boolean isGameOver() {
-
 		return getShipsSunk() == FLEET_SIZE;
 	}
 
@@ -152,7 +135,6 @@ public class Ocean {
 	 * found.
 	 */
 	private void placeAllShipsRandomly() {
-
 		int x = 0, y = 0;
 		boolean placed;
 		boolean dir = true;
@@ -174,13 +156,11 @@ public class Ocean {
 				}
 			}
 		}
-
 	}
 
 	/**
 	 * Check to see if all ships have been successfully placed by
 	 * placeAllShipsRandomly.
-	 * 
 	 * @return true if 27 of the cells are occupied by fleet ships, false
 	 *         otherwise.
 	 */
@@ -199,10 +179,9 @@ public class Ocean {
 	}
 
 	/**
-	 * Check to see if cell is occupied by a ship
-	 * 
-	 * @param row
-	 * @param column
+	 * Check to see if cell is occupied by a ship.
+	 * @param row the row coordinate
+	 * @param column the column coordinate
 	 * @return true if cell contains ship, false otherwise
 	 */
 	public boolean isOccupied(int row, int column) {
@@ -214,21 +193,18 @@ public class Ocean {
 		return true;
 	}
 
-	
 	/**
 	 * Shoots at the given location and updates the number of shots that have
 	 * been fired, and the number of hits. If a location contains a real ship,
 	 * shootAt returns true every time the user shoots at that location.
 	 * Once a ship has been sunk, additional shots at its location return
 	 * false.
-	 * 
-	 * @param row
-	 * @param column
+	 * @param row the row coordinate
+	 * @param column the column coordinate
 	 * @return returns true if the given location contains a real ship, still
 	 *         afloat (not an EmptySea), false otherwise.
 	 */
 	public boolean shootAt(int row, int column) {
-
 		Ship s = this.getShipArray()[row][column];
 		++shotsFired;// always register shotsFired first
 
@@ -241,7 +217,6 @@ public class Ocean {
 		// no longer registers hits
 		else if (s.isSunk())
 			return false;
-
 		else {// successful hit call ship shootAt method to register hit
 			s.shootAt(row, column);
 			++hitCount;
@@ -253,19 +228,15 @@ public class Ocean {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see java.lang.Object#toString()
 	 * 
 	 * To aid the user, row numbers are displayed along the left edge of the
 	 * array, and column numbers are displayed along the top. Numbers are 0 to
 	 * 9. The top left corner square is (0,0).
-	 * 
-	 * returns a string representing the ocean
+	 * @return a string representing the ocean
 	 */
 	public String toString() {
-
 		StringBuilder buff = new StringBuilder();
 		buff.append(" ");
 		for (int i = 0; i < ships[0].length; i++) {
@@ -289,34 +260,33 @@ public class Ocean {
 	/**
 	 * Sets cell state to one of the below strings according to the specified
 	 * criteria.
-	 * 
-	 * * Use 'S' to indicate a location that you have fired upon and hit a
-	 * (real) ship * Use '-' to indicate a location that you have fired upon and
-	 * found nothing there * Use 'x' to indication location containing a sunken
-	 * ship, and * Use '.' to indicate a location that you have never red upon
-	 * 
-	 * @param ship
-	 * @param x
-	 * @param y
+	 * Use 'S' to indicate a location that you have fired upon and hit a
+	 * (real) ship. 
+	 * Use '-' to indicate a location that you have fired upon and
+	 * found nothing there. 
+	 * Use 'x' to indication location containing a sunken ship.
+	 * Use '.' to indicate a location that you have never fired upon.
+	 * @param ship the ship at the location (may be empty sea)
+	 * @param x the row coordinate
+	 * @param y the column coordinate
 	 * @return string representing cell state
 	 */
 	private String setOceanCellState(Ship ship, int x, int y) {
-
 		String oceanCell = ".";
 
 		if (ship.getShipType() == "Empty Sea") {
 			if (((EmptySea) ship).getMiss())
 				oceanCell = "-";
-
 			else
 				oceanCell = ".";
-		} else {
-
+		} 
+		else {
 			if (ship.isHorizontal()) {
 				boolean[] hit = ship.getHit();
 				if (hit[y - ship.getBowColumn()])
 					oceanCell = "S";
 			}
+			
 			if (!ship.isHorizontal()) {
 				boolean[] hit = ship.getHit();
 				if (hit[x - ship.getBowRow()])
@@ -325,10 +295,7 @@ public class Ocean {
 
 			if (ship.isSunk())
 				oceanCell = "x";
-
 		}
-
 		return oceanCell;
 	}
-
 }

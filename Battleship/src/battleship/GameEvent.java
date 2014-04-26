@@ -1,5 +1,10 @@
 package battleship;
 
+/**
+ * @author Clare, Raitis, Dorian, David
+ * This class records game events of different types.
+ * Event may contain data.
+ */
 public class GameEvent {
 
 	private String type;
@@ -7,7 +12,6 @@ public class GameEvent {
 
 	public void setType(String type) {
 		this.type = type;
-		
 	}
 
 	public String getType() {
@@ -21,6 +25,5 @@ public class GameEvent {
 	public void setData(String data) {
 		this.data = data;
 	}
-
 
 }
