@@ -1,12 +1,13 @@
-package battleships;
+package battleship;
 
-public class Submarine extends Ship {
+
+public class Destroyer extends Ship {
 
 	/**
 	 * constructor setting ship length
 	 */
-	public Submarine() {
-		this.length = 3;
+	public Destroyer() {
+		this.length = 2;
 		this.hit = new boolean[length];
 	}
 
@@ -16,12 +17,15 @@ public class Submarine extends Ship {
 	 */
 	@Override
 	public String getShipType() {
-       return "Submarine";
+       return "Destroyer";
 	}
-	
+
 	@Override
 	public int getLength(){
 		return length;
 	}
 	
-}
+		
+	}
+	
+

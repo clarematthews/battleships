@@ -1,14 +1,11 @@
-package battleships;
+package battleship;
 
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import battleships.Ship;
-import battleships.ShipFactory;
-
-public class SubmarineTest {
+public class DestroyerTest {
 
 private static ShipFactory shipFactory;
 	
@@ -20,20 +17,21 @@ private static ShipFactory shipFactory;
 	@Test
 	public void test() throws ReflectiveOperationException {
 		
-		String expectedOutput = "Submarine";
+		String expectedOutput = "Destroyer";
 		String returnedOutput = null;
-		Integer expectedLength = 3;
+		Integer expectedLength = 2;
 		Integer returnedLength;
 
+	
 		try{
 
 
-		shipFactory.registerShip("submarine", Submarine.class);
+		shipFactory.registerShip("destroyer", Destroyer.class);
 
-		Ship submarine = shipFactory.createShip("submarine");	
+		Ship destroyer = shipFactory.createShip("destroyer");	
 		
-		returnedOutput = submarine.getShipType();
-		returnedLength = submarine.length;
+		returnedOutput = destroyer.getShipType();
+		returnedLength = destroyer.length;
 		
 		assertEquals(expectedOutput, returnedOutput);
 		assertEquals(expectedLength, returnedLength);

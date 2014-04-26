@@ -1,4 +1,5 @@
-package battleships;
+package battleship;
+
 
 /**
  * @authors Dorian, Clare, David, Raitis
