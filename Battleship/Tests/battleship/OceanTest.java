@@ -22,8 +22,7 @@ public class OceanTest {
 	@Test
 	public void testOcean() {
 		oc = new Ocean();
-		String occ = oc.toString();
-		System.out.println(occ);
+		
 	}
 
 	
