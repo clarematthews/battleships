@@ -35,7 +35,7 @@ public class Ocean {
 	 * Constructor creates ocean object by calling initGrid method.
 	 */
 	public Ocean() {
-			initGrid();
+		initGrid();
 	}
 
 	/**
@@ -55,7 +55,6 @@ public class Ocean {
 	/**
 	 * Creates ships and puts them into the fleet array used to order
 	 * the placement of ships from large to small. 
-	 * @throws ReflectiveOperationException
 	 */
 	private void initFleet() {
 		fleet[0] = shipFactory.createShip("aircraftCarrier");

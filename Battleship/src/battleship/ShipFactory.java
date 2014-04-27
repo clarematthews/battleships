@@ -31,7 +31,7 @@ public class ShipFactory {
 			Class<?> shipclass =  m_RegisteredShips.get(id);
 	        return (Ship) shipclass.newInstance();	
 		}
-		catch (ReflectiveOperationException ex) {
+		catch (Exception ex) {
 			throw new IllegalArgumentException("Unregistered ship type " + id);
 		}
 	}
