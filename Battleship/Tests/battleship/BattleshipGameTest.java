@@ -18,11 +18,9 @@ public class BattleshipGameTest {
 	
 	@Before
 	public void setUp() {
-		try{
 		game = new BattleshipGame();
 		output = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(output));
-		}catch(ReflectiveOperationException rex){}
 	}
 	
 	@After
@@ -32,7 +30,7 @@ public class BattleshipGameTest {
 	
 
 	@Test
-	public void testUpdate() throws ReflectiveOperationException {
+	public void testUpdate() {
 		
 		GameEngine engine = mock(GameEngine.class);
 		game.setEngine(engine);	

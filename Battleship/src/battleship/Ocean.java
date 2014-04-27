@@ -35,16 +35,13 @@ public class Ocean {
 	 * Constructor creates ocean object by calling initGrid method.
 	 */
 	public Ocean() {
-		try {
 			initGrid();
-		} catch (ReflectiveOperationException rex) {}
 	}
 
 	/**
 	 * Initialises ship array and fills it with emptySea objects. 
-	 * @throws ReflectiveOperationException
 	 */
-	private void initGrid() throws ReflectiveOperationException {
+	private void initGrid() {
 		for (int row = 0; row < OCEAN_SIZE; row++) {
 			for (int col = 0; col < OCEAN_SIZE; col++) {
 				ships[row][col] = shipFactory.createShip("emptySea");
@@ -60,7 +57,7 @@ public class Ocean {
 	 * the placement of ships from large to small. 
 	 * @throws ReflectiveOperationException
 	 */
-	private void initFleet() throws ReflectiveOperationException {
+	private void initFleet() {
 		fleet[0] = shipFactory.createShip("aircraftCarrier");
 		fleet[1] = shipFactory.createShip("battleship");
 		fleet[2] = shipFactory.createShip("battleship");

@@ -25,11 +25,14 @@ public class ShipFactory {
 	 * Creates new ships.
 	 * @param id - ship id
 	 * @return new ship
-	 * @throws ReflectiveOperationException
 	 */
-	public Ship createShip(String id) throws ReflectiveOperationException {
-		Class<?> shipclass =  m_RegisteredShips.get(id);
-        return (Ship) shipclass.newInstance();
+	public Ship createShip(String id) {
+		try {
+			Class<?> shipclass =  m_RegisteredShips.get(id);
+	        return (Ship) shipclass.newInstance();	
+		}
+		catch (ReflectiveOperationException ex) {
+			throw new IllegalArgumentException("Unregistered ship type " + id);
+		}
 	}
-
 }

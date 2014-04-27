@@ -12,15 +12,20 @@ import java.util.Observer;
  */
 public class BattleshipGame implements Observer {
 
-	public static void main(String[] args) throws ReflectiveOperationException {
-		BattleshipGame game = new BattleshipGame();
-		game.run();
+	public static void main(String[] args) {
+		try {
+			BattleshipGame game = new BattleshipGame();
+			game.run();	
+		}
+		catch (IllegalArgumentException ex) {
+			System.err.println(ex.getMessage());
+		}
 	}
 	
 	private GameEngine engine;
 	private boolean running;
 	
-	public BattleshipGame() throws ReflectiveOperationException {
+	public BattleshipGame() {
 		running = true;
 		GameEngine engine = new GameEngine();
 		this.setEngine(engine);

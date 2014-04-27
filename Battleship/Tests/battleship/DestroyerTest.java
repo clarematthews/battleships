@@ -15,16 +15,12 @@ private static ShipFactory shipFactory;
 	}
 
 	@Test
-	public void test() throws ReflectiveOperationException {
+	public void test() {
 		
 		String expectedOutput = "Destroyer";
 		String returnedOutput = null;
 		Integer expectedLength = 2;
 		Integer returnedLength;
-
-	
-		try{
-
 
 		shipFactory.registerShip("destroyer", Destroyer.class);
 
@@ -36,7 +32,6 @@ private static ShipFactory shipFactory;
 		assertEquals(expectedOutput, returnedOutput);
 		assertEquals(expectedLength, returnedLength);
 		
-		}catch( ReflectiveOperationException rex ){}
 	}
 
 
