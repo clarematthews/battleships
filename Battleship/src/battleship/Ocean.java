@@ -35,7 +35,10 @@ public class Ocean {
 	 * Constructor creates ocean object by calling initGrid method.
 	 */
 	public Ocean() {
-		initGrid();
+		do {
+			initGrid();	
+		} while (!isCorrectShipCount());
+		
 	}
 
 	/**
@@ -131,7 +134,7 @@ public class Ocean {
 	 * found.
 	 */
 	private void placeAllShipsRandomly() {
-		int x = 0, y = 0;
+		int x = 0, y = 0, count = 0;
 		boolean placed;
 		boolean dir = true;
 
@@ -139,8 +142,8 @@ public class Ocean {
 
 			placed = false;
 
-			while (!placed) {
-
+			while (!placed && count < 10000) {
+				count++;
 				// generate random x, y and horizontal values
 				x = rand.nextInt(OCEAN_SIZE);
 				y = rand.nextInt(OCEAN_SIZE);
